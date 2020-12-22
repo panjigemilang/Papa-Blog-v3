@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/api/users/login', 'Auth\AuthController@login');
+Route::get('/api/users/', 'Auth\AuthController@getAuthenticatedUser')->middleware('jwt.verify');
+
 Route::get('/{any}', function () {
     return view('index');
 })->where('any', '.*');

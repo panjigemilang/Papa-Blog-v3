@@ -7,8 +7,8 @@
     #{$property}: $value;
 }
 
-@mixin tranform($value) {
-    @include prefix($value);
+@mixin transform($value) {
+    @include prefix(transform, $value, webkit ms);
 }
 
 @mixin keyframes($str) {
