@@ -21,19 +21,25 @@ class UserController extends Controller
         $post = Post::find($id);
         if (!is_null($post)) {
             //TODO: replace with authenticated user
-            $like = Like::create([
-                'user_id' => 1,
-                'post_id' => $id,
-            ]);
+            $likeData = Like::where('user_id', 1)->where('post_id', $id)->get();
 
-            if ($like) {
-                $status = "success";
-                $message = "post liked";
-                $data = $post->toArray();
-                $code = 200;
+            if (sizeof($likeData) != 0) {
+                $message = "Error, post already liked";
             } else {
-                $message = "Error, post not found";
-                $code = 404;
+                $like = Like::create([
+                    'user_id' => 1,
+                    'post_id' => $id,
+                ]);
+
+                if ($like) {
+                    $status = "success";
+                    $message = "post liked";
+                    $data = $post->toArray();
+                    $code = 200;
+                } else {
+                    $message = "Error, post not found";
+                    $code = 404;
+                }
             }
         } else {
             $message = "Error, post not found";
@@ -130,6 +136,59 @@ class UserController extends Controller
         return response()->json([
             'status' => $status,
             'message' => $message,
+        ], $code);
+    }
+
+    public function getComments($id)
+    {
+        $status = "error";
+        $code = 403;
+        $message = "";
+        $data = [];
+
+        $comments = Comment::where('post_id', $id)->get();
+        if (sizeof($comments) != 0) {
+            $status = "success";
+            $message = "comments found";
+            $data = $comments->toArray();
+            $code = 200;
+        } else {
+            $message = "Error, comments not found";
+            $code = 404;
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ], $code);
+    }
+
+    public function getLikes($id)
+    {
+        $status = "error";
+        $code = 403;
+        $message = "";
+        $data = [];
+        $numOfLikes = 0;
+
+        $likes = Like::where('post_id', $id)->get();
+        if (sizeof($likes) != 0) {
+            $status = "success";
+            $message = "post likes data found";
+            $data = $likes->toArray();
+            $numOfLikes = sizeof($data);
+            $code = 200;
+        } else {
+            $message = "Error, post has no likes";
+            $code = 404;
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'likes' => $numOfLikes,
+            'data' => $data
         ], $code);
     }
 

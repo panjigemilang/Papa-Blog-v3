@@ -31,6 +31,8 @@ Route::get('post/title/{title}', 'PostController@searchPost');
 // For User
 Route::post('/like/post/{id}', 'UserController@likePost');
 Route::post('/comment/post/{id}', 'UserController@commentPost');
+Route::get('/comments/{id}', 'UserController@getComments');
+Route::get('/likes/{id}', 'UserController@getLikes');
 Route::delete('/comment/post/{id}', 'UserController@removeComment');
 Route::delete('/like/post/{id}', 'UserController@unlikePost');
 Route::get('/profile/{id}', 'UserController@getProfile');
