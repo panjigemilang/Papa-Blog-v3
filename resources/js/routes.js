@@ -18,7 +18,14 @@ const routes = [
       meta: {
         title: `${title} - Login`,
       },
-    }
+    },
+    {
+      path: "/admin",
+      component: Home,
+      meta: {
+        title: `${title} - Dashboard`,
+      },
+    },
   ]
 
 const router = new VueRouter({

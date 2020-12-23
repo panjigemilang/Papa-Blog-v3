@@ -1,7 +1,7 @@
 <template>
-    <div class="app min-h-screen">
+    <div class="app min-h-screen bg-gray-900">
         <Navbar />
-        <div class="ml-22">
+        <div class="transition-all duration-300">
             <router-view></router-view>
             <Toast />
             <Footer />
@@ -62,6 +62,7 @@ export default {
 
 html,
 body {
+    color: whitesmoke;
     height: 100%;
     position: relative;
     width: 100%;
@@ -111,7 +112,6 @@ button {
 
     &:focus {
         border: 1px solid rgba(123, 198, 183, 0.5);
-        border-radius: inherit;
         outline: none;
     }
 }

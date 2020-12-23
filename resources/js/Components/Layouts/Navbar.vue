@@ -1,5 +1,8 @@
 <template>
-    <nav class="fixed h-screen">
+    <nav
+        class="transition-all duration-300 fixed h-screen"
+        :class="navbar ? 'left-0' : '-left-20'"
+    >
         <ul class="flex flex-col">
             <li class="mb-4">
                 <button
@@ -26,10 +29,34 @@
             </li>
             <li class="mb-4">
                 <button class="w-full" type="button">
-                    <i class="text-white fas fa-home fa-primary"></i>
+                    <router-link to="/">
+                        <i class="text-white fas fa-home fa-primary"></i>
+                    </router-link>
                 </button>
             </li>
         </ul>
+        <button
+            class="transition-all duration-300 nav-btn cursor-pointer fixed bottom-10 w-16 p-3 rounded-r-lg shadow-xl focus:border-transparent"
+            :class="navbar ? 'show' : 'left-0'"
+            @click="toggleNavbar"
+        >
+            <span
+                class="transition-all duration-300 block my-2 w-full h-1 rounded-md transform"
+                :class="
+                    navbar
+                        ? 'rotate-45 translate-y-2'
+                        : 'rotate-0 translate-y-0'
+                "
+            ></span>
+            <span
+                class="transition-all duration-300 block my-2 w-full h-1 rounded-md transform"
+                :class="
+                    navbar
+                        ? '-rotate-45 -translate-y-1'
+                        : 'rotate-0 translate-y-0'
+                "
+            ></span>
+        </button>
     </nav>
 </template>
 
@@ -39,17 +66,23 @@ import { mapActions, mapState } from "vuex";
 export default {
     name: "Navigation",
     computed: {
-        ...mapState("services", ["isAuthenticated"])
+        ...mapState("services", ["isAuthenticated"]),
+        ...mapState("general", ["navbar"])
     },
     methods: {
-        ...mapActions("services", ["logout"])
+        ...mapActions("services", ["logout"]),
+        ...mapActions("general", ["toggleNavbar"])
     }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../../sass/variables.scss";
 @import "../../../sass/prefix.scss";
+
+.-left-20 {
+    left: -5.37rem !important;
+}
 
 nav {
     background-color: $color-primary-dark;
@@ -60,6 +93,18 @@ nav {
         i {
             @include transform(scale(1.2));
             transition: 0.3s ease-in-out;
+        }
+    }
+
+    .nav-btn {
+        background-color: $footer-left;
+
+        span {
+            background-color: $color-primary-dark;
+        }
+
+        &.show {
+            left: 5.37rem;
         }
     }
 }
