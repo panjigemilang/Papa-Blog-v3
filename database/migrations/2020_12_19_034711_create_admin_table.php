@@ -15,10 +15,10 @@ class CreateAdminTable extends Migration
     {
         Schema::create('admin', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 45);
-            $table->string('password', 45);
+            $table->string('email', 45);
+            $table->text('password');
             $table->string('name', 45);
-            $table->text('img_path', 45);
+            $table->text('img_path');
             $table->string('who', 10);
             $table->timestamps();
         });
