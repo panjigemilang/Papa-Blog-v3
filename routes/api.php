@@ -19,3 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('post', 'AdminController@createPost');
+Route::put('post/{id}', 'AdminController@editPost');
+Route::delete('post/{id}', 'AdminController@deletePost');
+
+Route::get('posts', 'PostController@getPosts');
+Route::get('post/{id}', 'PostController@getPost');
+Route::get('post/title/{title}', 'PostController@searchPost');
