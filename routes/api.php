@@ -18,10 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// For Admin
 Route::post('post', 'AdminController@createPost');
 Route::put('post/{id}', 'AdminController@editPost');
 Route::delete('post/{id}', 'AdminController@deletePost');
 
+// For Posts
 Route::get('posts', 'PostController@getPosts');
 Route::get('post/{id}', 'PostController@getPost');
 Route::get('post/title/{title}', 'PostController@searchPost');
+
+// For User
+Route::post('/like/post/{id}', 'UserController@likePost');
+Route::post('/comment/post/{id}', 'UserController@commentPost');
+Route::delete('/comment/post/{id}', 'UserController@removeComment');
