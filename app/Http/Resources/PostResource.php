@@ -14,10 +14,18 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'status' => 'success',
-            'message' => 'posts data',
-            'data' => parent::toArray($request)
-        ];
+        $data = parent::toArray($request);
+        if (sizeof($data) > 0) {
+            return [
+                'status' => 'success',
+                'message' => 'posts data',
+                'data' => $data
+            ];
+        } else {
+            return [
+                'status' => 'error',
+                'message' => 'post not found'
+            ];
+        }
     }
 }
