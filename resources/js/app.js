@@ -14,10 +14,12 @@ import Vue from 'vue'
 import store from './store'
 import VueRouter from 'vue-router'
 import router from './routes'
+import CKEditor from '@ckeditor/ckeditor5-vue';
 import App from './App.vue'
 import "../css/app.css"
 
 Vue.use(VueRouter)
+Vue.use(CKEditor);
  
 const vm = new Vue({
     el: '#root',

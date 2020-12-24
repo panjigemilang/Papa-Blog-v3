@@ -14,7 +14,7 @@ import Navbar from "./Components/Layouts/Navbar";
 import Footer from "./Components/Layouts/Footer";
 import Toast from "./Components/Utils/Toast";
 import setAuthToken from "./Components/Utils/setAuthToken";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 
@@ -24,6 +24,9 @@ export default {
         Navbar,
         Footer,
         Toast
+    },
+    computed: {
+        ...mapState("services", ["user"])
     },
     methods: {
         ...mapActions("services", ["logout", "setCurrentUser", "getUser"])
@@ -45,6 +48,8 @@ export default {
                     // redirect to login
                     this.$router.push("/login");
                 }
+
+                // if (this.user.who == "admin") this.$router.push("/admin");
             });
         }
     }

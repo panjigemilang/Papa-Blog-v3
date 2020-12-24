@@ -63,6 +63,8 @@ const actions = {
     state.loading = false
   },
   async getUser({ commit }) {
+    state.loading = true
+
     await axios
       .get(user_url)
       .then(res => {
@@ -72,6 +74,8 @@ const actions = {
       .catch(err => {
         commit("setError", err.response.data)
       })
+
+    state.loading = false
   },
   logout({ commit }) {
     // Remove token from local storage

@@ -1,6 +1,7 @@
 import VueRouter from "vue-router";
 import Home from "./Components/Pages/Home"
 import Login from "./Components/Pages/Auth/Login"
+import Dashboard from "./Components/Pages/Admin/Dashboard"
 
 const title = "Papa Blog"
 
@@ -21,7 +22,7 @@ const routes = [
     },
     {
       path: "/admin",
-      component: Home,
+      component: Dashboard,
       meta: {
         title: `${title} - Dashboard`,
       },

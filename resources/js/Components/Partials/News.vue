@@ -43,7 +43,7 @@
 
 <script>
 export default {
-    name: "News Content",
+    name: "News-Content",
     props: {
         newsContent: Array
     }

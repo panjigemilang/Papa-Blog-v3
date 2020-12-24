@@ -10,7 +10,14 @@ const actions = {
     state.navbar = !state.navbar
   }, 
   toggleToast({ commit, state }) {
-    state.toast = !state.toast
+    const temp = !state.toast        
+    state.toast = !state.toast        
+
+    if (temp == true) {
+      setTimeout(() => {
+        state.toast = false
+      }, 3000);
+    }
   }
 }
 
