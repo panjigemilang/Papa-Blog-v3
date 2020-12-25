@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/api/users/login', 'Auth\AuthController@login');
+Route::post('/api/posts/addPost', 'Post\PostController@addPost');
 // Route::get('/api/users/', 'Auth\AuthController@getAuthenticatedUser')->middleware('jwt.verify');
+
 Route::middleware('jwt.verify')->group(function() {
     Route::get('/api/users/', 'Auth\AuthController@getAuthenticatedUser');
 });

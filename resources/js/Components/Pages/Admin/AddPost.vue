@@ -5,30 +5,19 @@
                 <label class="md:w-2/12">Post Title</label>
                 <div class="md:w-10/12">
                     <input
-                        v-model="form.post_title"
+                        v-model="title"
                         type="text"
                         placeholder="New Post Title"
-                        name="post_title"
+                        name="title"
                         class="form-control"
-                        :class="{ 'is-invalid': form.errors.has('post_title') }"
                     />
-                    <has-error :form="form" field="post_title"></has-error>
                 </div>
             </div>
 
             <div class="flex flex-row">
                 <label class="md:w-2/12">Post Text</label>
                 <div class="md:w-10/12">
-                    <ckeditor
-                        class="md:w-10/12 form-control"
-                        :class="{ 'is-invalid': form.errors.has('post_text') }"
-                        tag-name="textarea"
-                        name="post_text"
-                        :editor="editor"
-                        v-model="form.post_text"
-                        :config="editorConfig"
-                    ></ckeditor>
-                    <has-error :form="form" field="post_text"></has-error>
+                    <wysiwyg v-model="content" />
                 </div>
             </div>
 
@@ -40,9 +29,7 @@
                         name="post_image"
                         @change="postImage"
                         class="form-control"
-                        :class="{ 'is-invalid': form.errors.has('post_image') }"
                     />
-                    <has-error :form="form" field="post_image"></has-error>
                 </div>
             </div>
 
@@ -51,7 +38,7 @@
                     type="submit"
                     class="rounded-lg shadow-lg bg-blue-400 text-white w-2/6 focus:rounded-lg"
                 >
-                    Add New
+                    Add Post
                 </button>
             </div>
         </form>
@@ -59,52 +46,37 @@
 </template>
 
 <script>
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import Form from "vform";
+import { mapActions } from "vuex";
 
 export default {
     name: "Add_Post",
     data() {
         return {
-            editor: ClassicEditor,
-            editorData: "<p>Your Post Content</p>",
-            editorConfig: {},
-
-            form: new Form({
-                post_text: "",
-                post_title: "",
-                post_image: ""
-            })
+            title: "",
+            content: ""
         };
     },
     methods: {
-        postImage(image) {
-            let file = image.target.files[0];
-            let reader = new FileReader();
-            if (file["size"] < 2000000) {
-                reader.onloadend = file => {
-                    this.form.post_image = reader.result;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                swal.fire({
-                    icon: "error",
-                    title: "Opps",
-                    text: "Please select file smaller than 2 MB"
-                });
-            }
-        },
+        ...mapActions("posts", ["addPost"]),
         createPost() {
-            alert("Created Post");
-            // this.$Progress.start();
-            // this.form.post("/admin/post").then(() => {
-            //     toast.fire({
-            //         icon: "success",
-            //         title: "Post Added Successfully"
-            //     });
-            //     this.$Progress.finish();
-            //     this.form.reset();
-            // });
+            // Extracting all the base64 images
+            const image_files = this.content.match(/data:image.+?(?=")/g);
+
+            // replacing the img tag with empty src to be replace later
+            const content = this.content.replace(/data:image.+?(?=")/g, "");
+
+            const data = {
+                image_files,
+                title: this.title,
+                content
+            };
+
+            this.addPost(data).then(() => {
+                "Abis ngirim";
+            });
+        },
+        postImage() {
+            console.log("pipop");
         }
     }
 };
