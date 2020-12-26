@@ -1,5 +1,6 @@
 import VueRouter from "vue-router";
 import Home from "./Components/Pages/Home"
+import Login from "./Components/Pages/Auth/Login"
 
 const title = "Papa Blog"
 
@@ -8,7 +9,21 @@ const routes = [
       path: "/",
       component: Home,
       meta: {
+        title: `${title} - Selamat Datang!`,
+      },
+    },
+    {
+      path: "/login",
+      component: Login,
+      meta: {
         title: `${title} - Login`,
+      },
+    },
+    {
+      path: "/admin",
+      component: Home,
+      meta: {
+        title: `${title} - Dashboard`,
       },
     },
   ]

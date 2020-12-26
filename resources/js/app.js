@@ -11,6 +11,7 @@ try {
 } catch (e) {}
 
 import Vue from 'vue'
+import store from './store'
 import VueRouter from 'vue-router'
 import router from './routes'
 import App from './App.vue'
@@ -21,5 +22,6 @@ Vue.use(VueRouter)
 const vm = new Vue({
     el: '#root',
     router,
+    store,
     render: h => h(App)
 })
