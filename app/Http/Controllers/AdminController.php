@@ -18,6 +18,7 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
+            'image_cover' => 'required|mimes:jpg,jpeg,png'
         ]);
 
         if ($validator->fails()) {
@@ -29,10 +30,19 @@ class AdminController extends Controller
             foreach ($errors->get('content') as $msg) {
                 $message['content'] = $msg;
             }
+
+            foreach ($errors->get('image_cover') as $msg) {
+                $message['image_cover'] = $msg;
+            }
         } else {
+            $imageName = time() . "image." . $request->file('image_cover')->getClientOriginalExtension();
+            $path = $request->file('image_cover')->move(public_path("/img/cover"), $imageName);
+            $imageUrl = url("/img/cover/" . $imageName);
+
             $post = Post::create([
                 'title' => $request->title,
                 'content' => $request->content,
+                'image_cover' => $imageUrl,
             ]);
 
             if ($post) {
@@ -62,6 +72,7 @@ class AdminController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'content' => 'required',
+            'image_cover' => 'required|mimes:jpg,jpeg,png'
         ]);
 
         if ($validator->fails()) {
@@ -73,11 +84,24 @@ class AdminController extends Controller
             foreach ($errors->get('content') as $msg) {
                 $message['content'] = $msg;
             }
+
+            foreach ($errors->get('image_cover') as $msg) {
+                $message['image_cover'] = $msg;
+            }
         } else {
             $post = Post::find($id);
             if (!is_null($post)) {
+                $targetFile = str_replace('http://localhost:8080/Papa-Blog-v3/public/', '', $post->image_cover);
+                unlink(public_path($targetFile));
+
+                $imageName = time() . "image." . $request->file('image_cover')->getClientOriginalExtension();
+                $path = $request->file('image_cover')->move(public_path("/img/cover"), $imageName);
+                $imageUrl = url("/img/cover/" . $imageName);
+
+                $post->image_cover = $imageUrl;
                 $post->title = $request->title;
                 $post->content = $request->content;
+
                 $post->save();
 
                 $status = "success";
@@ -105,6 +129,8 @@ class AdminController extends Controller
 
         $post = Post::find($id);
         if (!is_null($post)) {
+            $targetFile = str_replace('http://localhost:8080/Papa-Blog-v3/public/', '', $post->image_cover);
+            unlink(public_path($targetFile));
             $post->delete();
 
             $status = "success";

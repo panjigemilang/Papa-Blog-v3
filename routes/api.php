@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // For Admin
 Route::post('post', 'AdminController@createPost');
-Route::put('post/{id}', 'AdminController@editPost');
+Route::post('post/{id}', 'AdminController@editPost');
 Route::delete('post/{id}', 'AdminController@deletePost');
 
 // For Posts
