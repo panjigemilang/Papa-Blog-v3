@@ -24,7 +24,7 @@ Route::put('post/{id}', 'AdminController@editPost');
 Route::delete('post/{id}', 'AdminController@deletePost');
 
 // For Posts
-Route::get('posts', 'PostController@getPosts');
+Route::get('posts/{num}', 'PostController@getPosts');
 Route::get('post/{id}', 'PostController@getPost');
 Route::get('post/title/{title}', 'PostController@searchPost');
 

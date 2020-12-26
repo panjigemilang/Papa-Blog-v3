@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-    public function getPosts()
+    public function getPosts($num)
     {
-        $criteria = Post::all();
+        $criteria = Post::paginate($num);
         return new PostResource($criteria);
     }
 
