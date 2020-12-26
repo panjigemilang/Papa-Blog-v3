@@ -2101,6 +2101,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2202,7 +2207,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         content: content
       };
       this.addPost(data).then(function () {
-        "Abis ngirim";
+        console.log("Setelah upload");
       });
     },
     postImage: function postImage() {
@@ -2223,6 +2228,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Partials_News__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Partials/News */ "./resources/js/Components/Partials/News.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2245,11 +2251,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Dashboard",
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("services", ["loading", "user"])),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("services", ["getUser"]))
+  components: {
+    News: _Partials_News__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("services", ["loading", "user"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("posts", {
+    post_loading: function post_loading(state) {
+      return state.loading;
+    },
+    posts: function posts(state) {
+      return state.posts;
+    }
+  })),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("services", ["getUser"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("posts", ["getAllPosts"])),
+  created: function created() {
+    this.getAllPosts();
+  }
 });
 
 /***/ }),
@@ -2428,23 +2454,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         title: "Mahasiswa ini ternyata menyimpan anak kecil didalam jaketnya wow!"
       }],
       newsContent: [{
+        id: 1,
         title: "Yin Yang, sebuah kekuatan bersatu dalam satu rasa",
         thumbnail: "/storage/kucing.jpeg"
-      }, {
-        title: "Title 2",
-        thumbnail: "https://via.placeholder.com/220x154.png/ff3149/0038BA"
-      }, {
-        title: "Title 1",
-        thumbnail: "https://via.placeholder.com/220x154.png"
-      }, {
-        title: "Title 2",
-        thumbnail: "https://via.placeholder.com/220x154.png/ff3149/0038BA"
-      }, {
-        title: "Title 1",
-        thumbnail: "https://via.placeholder.com/220x154.png"
-      }, {
-        title: "Title 2",
-        thumbnail: "https://via.placeholder.com/220x154.png/ff3149/0038BA"
       }]
     };
   },
@@ -2512,6 +2524,26 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -22928,16 +22960,31 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("li", { staticClass: "mb-4" }, [
-          _c(
-            "button",
-            { staticClass: "w-full", attrs: { type: "button" } },
-            [
-              _c("router-link", { attrs: { to: "/" } }, [
-                _c("i", { staticClass: "text-white fas fa-home fa-primary" })
-              ])
-            ],
-            1
-          )
+          _vm.user.who == "admin"
+            ? _c(
+                "button",
+                { staticClass: "w-full", attrs: { type: "button" } },
+                [
+                  _c("router-link", { attrs: { to: "/admin" } }, [
+                    _c("i", {
+                      staticClass: "text-white fas fa-home fa-primary"
+                    })
+                  ])
+                ],
+                1
+              )
+            : _c(
+                "button",
+                { staticClass: "w-full", attrs: { type: "button" } },
+                [
+                  _c("router-link", { attrs: { to: "/" } }, [
+                    _c("i", {
+                      staticClass: "text-white fas fa-home fa-primary"
+                    })
+                  ])
+                ],
+                1
+              )
         ]),
         _vm._v(" "),
         _c("li", { staticClass: "mb-4 mt-auto" }, [
@@ -23161,10 +23208,22 @@ var render = function() {
           [_c("i", { staticClass: "text-5xl fas fa-circle-notch fa-spin" })]
         )
       : _c("div", [
-          _c("div", { staticClass: "container mx-auto py-8" }, [
+          _c("div", { staticClass: "container py-8" }, [
             _c("h1", { staticClass: "text-lg" }, [
               _vm._v("Selamat datang, " + _vm._s(_vm.user.name) + "!")
-            ])
+            ]),
+            _vm._v(" "),
+            _vm.post_loading
+              ? _c("div", { staticClass: "text-center mt-16" }, [
+                  _c("i", {
+                    staticClass: "text-5xl fas fa-circle-notch fa-spin"
+                  })
+                ])
+              : _c(
+                  "div",
+                  [_c("News", { attrs: { newsContent: _vm.posts.data } })],
+                  1
+                )
           ])
         ])
   ])
@@ -23343,7 +23402,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container mx-auto py-8" },
+    { staticClass: "container py-8" },
     [
       _c("Featured", { attrs: { galleryContent: _vm.galleryContent } }),
       _vm._v(" "),
@@ -23455,12 +23514,30 @@ var render = function() {
             "rounded-lg flex flex-row border-gray-300 bg-gray-800 shadow-xl mb-8"
         },
         [
-          _c("a", { staticClass: "w-4/12", attrs: { href: "#" } }, [
-            _c("img", {
-              staticClass: "rounded-lg object-cover mr-3 thumbnail w-full",
-              attrs: { src: content.thumbnail, alt: "Image" }
-            })
-          ]),
+          _c(
+            "a",
+            {
+              staticClass: "w-4/12",
+              attrs: {
+                href:
+                  "post/" +
+                  content.title.replace(" ", "-").toLowerCase() +
+                  "/" +
+                  content.id
+              }
+            },
+            [
+              _c("img", {
+                staticClass: "rounded-lg object-cover mr-3 thumbnail w-full",
+                attrs: {
+                  src: content.thumbnail
+                    ? content.thumbnail
+                    : "https://via.placeholder.com/630x430.png",
+                  alt: "Image"
+                }
+              })
+            ]
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "content p-4 w-8/12" }, [
             _c("h1", { staticClass: "font-black mb-4 text-xl" }, [
@@ -23468,7 +23545,13 @@ var render = function() {
                 "a",
                 {
                   staticClass: "transition-all duration-300 title",
-                  attrs: { href: "#" }
+                  attrs: {
+                    href:
+                      "post/" +
+                      content.title.replace(" ", "-").toLowerCase() +
+                      "/" +
+                      content.id
+                  }
                 },
                 [
                   _vm._v(
@@ -41332,19 +41415,52 @@ var actions = {
             case 0:
               commit = _ref.commit;
               commit("setLoading");
-              axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(BASE_URL + "/addPost", payload).then(function (res) {
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(BASE_URL + "/addPost", payload).then(function (res) {
                 console.log("Add Post Res : ", res);
               })["catch"](function (err) {
                 console.log("Err", err);
                 commit("setErrors", err.response.data);
               });
 
-            case 3:
+            case 4:
+              commit("setLoading");
+
+            case 5:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
+    }))();
+  },
+  getAllPosts: function getAllPosts(_ref2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              commit("setLoading");
+              _context2.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(BASE_URL + "/getAllPosts").then(function (res) {
+                console.log("Get Post Res : ", res);
+                commit('setPosts', res.data);
+              })["catch"](function (err) {
+                console.log("Err", err);
+                commit("setErrors", err.response.data);
+              });
+
+            case 4:
+              commit('setLoading');
+
+            case 5:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
     }))();
   }
 };
@@ -41417,7 +41533,6 @@ var actions = {
               state.loading = true;
               _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(BASE_URL + "/login", payload).then(function (res) {
-                console.log("RES", res);
                 var token = res.data.token; // set token to local storage
 
                 localStorage.setItem("jwtToken", token); // Set token to Auth Header

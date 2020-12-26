@@ -28,7 +28,12 @@
                 </button>
             </li>
             <li class="mb-4">
-                <button class="w-full" type="button">
+                <button class="w-full" type="button" v-if="user.who == 'admin'">
+                    <router-link to="/admin">
+                        <i class="text-white fas fa-home fa-primary"></i>
+                    </router-link>
+                </button>
+                <button class="w-full" type="button" v-else>
                     <router-link to="/">
                         <i class="text-white fas fa-home fa-primary"></i>
                     </router-link>

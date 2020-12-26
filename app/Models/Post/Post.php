@@ -12,4 +12,9 @@ class Post extends Model
     protected $fillable = [
         'title', 'content', 'created_at', 'updated_at'
     ];
+
+    public function pictures()
+    {
+        return $this->hasMany(Pictures::class);
+    }
 }

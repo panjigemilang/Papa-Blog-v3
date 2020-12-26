@@ -72,7 +72,7 @@ export default {
             };
 
             this.addPost(data).then(() => {
-                "Abis ngirim";
+                console.log("Setelah upload");
             });
         },
         postImage() {

@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto py-8">
+    <div class="container py-8">
         <Featured :galleryContent="galleryContent" />
         <div class="flex flex-row">
             <News :newsContent="newsContent" />
@@ -49,33 +49,9 @@ export default {
             ],
             newsContent: [
                 {
+                    id: 1,
                     title: "Yin Yang, sebuah kekuatan bersatu dalam satu rasa",
                     thumbnail: "/storage/kucing.jpeg"
-                },
-                {
-                    title: "Title 2",
-                    thumbnail:
-                        "https://via.placeholder.com/220x154.png/ff3149/0038BA"
-                },
-
-                {
-                    title: "Title 1",
-                    thumbnail: "https://via.placeholder.com/220x154.png"
-                },
-                {
-                    title: "Title 2",
-                    thumbnail:
-                        "https://via.placeholder.com/220x154.png/ff3149/0038BA"
-                },
-
-                {
-                    title: "Title 1",
-                    thumbnail: "https://via.placeholder.com/220x154.png"
-                },
-                {
-                    title: "Title 2",
-                    thumbnail:
-                        "https://via.placeholder.com/220x154.png/ff3149/0038BA"
                 }
             ]
         };

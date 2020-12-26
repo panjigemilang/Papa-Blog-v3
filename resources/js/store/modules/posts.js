@@ -30,21 +30,41 @@ const actions = {
   async addPost({ commit }, payload) {
     commit("setLoading")
 
-    axios
-    .post(BASE_URL + "/addPost", payload)
-    .then(res => {
-      console.log("Add Post Res : ", res);
-    })
-    .catch(err => {
-      console.log("Err", err);
-      commit("setErrors", err.response.data)
-    })
-  }
- }
+    await axios
+      .post(BASE_URL + "/addPost", payload)
+      .then(res => {
+        console.log("Add Post Res : ", res);
+      })
+      .catch(err => {
+        console.log("Err", err);
+        commit("setErrors", err.response.data)
+      })
 
- export default {
-   namespaced,
-   state,
-   actions,
-   mutations
- }
+    commit("setLoading")
+    },
+ async getAllPosts({ commit }) {
+    commit("setLoading")
+
+    await axios
+      .get(BASE_URL + "/getAllPosts")
+      .then(res => {
+        console.log("Get Post Res : ", res);
+
+        commit('setPosts', res.data);
+      })
+      .catch(err => {
+        console.log("Err", err);
+        commit("setErrors", err.response.data)
+      })
+
+    commit('setLoading')
+    }
+
+}
+
+export default {
+  namespaced,
+  state,
+  actions,
+  mutations
+}

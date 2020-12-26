@@ -36,7 +36,6 @@ const actions = {
     await axios
       .post(BASE_URL + "/login", payload)
       .then((res) => {
-        console.log("RES", res);
         const { token } = res.data
 
         // set token to local storage

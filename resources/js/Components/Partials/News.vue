@@ -5,16 +5,36 @@
             v-for="(content, index) in newsContent"
             :key="index"
         >
-            <a class="w-4/12" href="#">
+            <a
+                class="w-4/12"
+                :href="
+                    'post/' +
+                        content.title.replace(' ', '-').toLowerCase() +
+                        '/' +
+                        content.id
+                "
+            >
                 <img
-                    :src="content.thumbnail"
+                    :src="
+                        content.thumbnail
+                            ? content.thumbnail
+                            : 'https://via.placeholder.com/630x430.png'
+                    "
                     alt="Image"
                     class="rounded-lg object-cover mr-3 thumbnail w-full"
                 />
             </a>
             <div class="content p-4 w-8/12">
                 <h1 class="font-black mb-4 text-xl">
-                    <a class="transition-all duration-300 title" href="#">
+                    <a
+                        class="transition-all duration-300 title"
+                        :href="
+                            'post/' +
+                                content.title.replace(' ', '-').toLowerCase() +
+                                '/' +
+                                content.id
+                        "
+                    >
                         {{ content.title }}
                     </a>
                 </h1>
