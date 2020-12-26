@@ -32,7 +32,7 @@
 
 <script>
 export default {
-    name: "Featured News",
+    name: "Featured-News",
     props: {
         galleryContent: Array
     }

@@ -3,7 +3,7 @@
         class="transition-all duration-300 fixed h-screen"
         :class="navbar ? 'left-0' : '-left-20'"
     >
-        <ul class="flex flex-col">
+        <ul class="flex flex-col h-full">
             <li class="mb-4">
                 <button
                     class="w-full"
@@ -28,9 +28,25 @@
                 </button>
             </li>
             <li class="mb-4">
-                <button class="w-full" type="button">
+                <button class="w-full" type="button" v-if="user.who == 'admin'">
+                    <router-link to="/admin">
+                        <i class="text-white fas fa-home fa-primary"></i>
+                    </router-link>
+                </button>
+                <button class="w-full" type="button" v-else>
                     <router-link to="/">
                         <i class="text-white fas fa-home fa-primary"></i>
+                    </router-link>
+                </button>
+            </li>
+            <li class="mb-4 mt-auto">
+                <button class="w-full" type="button" v-if="user.who == 'admin'">
+                    <router-link to="/add">
+                        <div
+                            class="bg-green-600 rounded-full h-14 w-14 flex items-center justify-center"
+                        >
+                            <i class="text-white fas fa-plus"></i>
+                        </div>
                     </router-link>
                 </button>
             </li>
@@ -62,16 +78,23 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import isEmpty from "../Utils/isEmpty";
 
 export default {
     name: "Navigation",
     computed: {
-        ...mapState("services", ["isAuthenticated"]),
+        ...mapState("services", ["isAuthenticated", "user"]),
         ...mapState("general", ["navbar"])
     },
     methods: {
         ...mapActions("services", ["logout"]),
-        ...mapActions("general", ["toggleNavbar"])
+        ...mapActions("general", ["toggleNavbar"]),
+        checkEmpty(val) {
+            return isEmpty(val);
+        },
+        addPost() {
+            alert("add post");
+        }
     }
 };
 </script>

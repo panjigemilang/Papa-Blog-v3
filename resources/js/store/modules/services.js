@@ -2,8 +2,7 @@ import axios from "axios"
 import setAuthToken from "../../Components/Utils/setAuthToken"
 import isEmpty from "../../Components/Utils/isEmpty"
 
-const post_url = "/api/posts"
-const user_url = "/api/users"
+const BASE_URL = "/api/users"
 
 const namespaced = true
 
@@ -11,8 +10,6 @@ const state = {
   errors: {},
   isAuthenticated: false,
   loading: false,
-  post: {},
-  posts: {},
   user: {}
 }
 
@@ -26,12 +23,6 @@ const mutations = {
   setLoading: (state, data) => {
     state.loading = data
   },
-  setPost: (state, postData) => {
-    state.post = postData
-  },
-  setPosts: (state, postData) => {
-    state.posts = postData
-  },
   setUser: (state, userData) => {
     state.isAuthenticated = !isEmpty(userData)
     state.user = userData
@@ -43,9 +34,8 @@ const actions = {
     state.loading = true
 
     await axios
-      .post(user_url + "/login", payload)
+      .post(BASE_URL + "/login", payload)
       .then((res) => {
-        console.log("RES", res);
         const { token } = res.data
 
         // set token to local storage
@@ -63,8 +53,10 @@ const actions = {
     state.loading = false
   },
   async getUser({ commit }) {
+    state.loading = true
+
     await axios
-      .get(user_url)
+      .get(BASE_URL)
       .then(res => {
         console.log("Get User", res);
         commit("setUser", res.data.user)
@@ -72,6 +64,8 @@ const actions = {
       .catch(err => {
         commit("setError", err.response.data)
       })
+
+    state.loading = false
   },
   logout({ commit }) {
     // Remove token from local storage

@@ -1,5 +1,5 @@
 <template>
-    <div class="login-app container min-h-screen">
+    <div class="login-app mx-auto container min-h-screen">
         <div class="w-5/12 mx-auto pt-16">
             <div class="heading text-center mb-8">
                 <h2 class="md:text-4xl font-bold">Login</h2>
@@ -13,7 +13,7 @@
                         type="text"
                         name="email"
                         id="email"
-                        class="w-full"
+                        class="w-full text-black"
                         required=""
                         v-model="email"
                     />
@@ -29,7 +29,7 @@
                         type="password"
                         name="password"
                         id="password"
-                        class="w-full"
+                        class="w-full text-black"
                         required=""
                         v-model="password"
                     />
@@ -70,7 +70,7 @@ export default {
     },
     created() {
         if (localStorage.getItem("jwtToken")) {
-            this.$router.push("/");
+            this.$router.push("/admin");
         }
     },
     computed: {
@@ -90,7 +90,7 @@ export default {
             this.login(formData).then(() => {
                 // If no errors, login success and directing to next page
                 if (isEmpty(this.errors)) {
-                    this.$router.push("/");
+                    this.$router.push("/admin");
                 } else {
                     this.toggleToast();
                 }

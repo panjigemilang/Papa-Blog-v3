@@ -30,7 +30,7 @@
 
 <script>
 export default {
-    name: "Trending News",
+    name: "Trending-News",
     data() {
         return {
             contents: [
