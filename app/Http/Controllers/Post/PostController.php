@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 // Models
 use App\Models\Post\Post;
@@ -74,6 +75,10 @@ class PostController extends Controller
 
     public function getAllPosts()
     {
+        // $posts = DB::table('posts AS p')
+        //             ->leftJoin('pictures AS pi', 'p.id', 'pi.post_id')
+        //             ->select('p.*', 'pi.img_path')
+        //             ->get();
         $posts = Post::take(10)->get();
 
         $response = $this->responseSuccess($posts);

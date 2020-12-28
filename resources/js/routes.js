@@ -1,5 +1,6 @@
 import VueRouter from "vue-router";
 import Home from "./Components/Pages/Home"
+import Post from "./Components/Pages/Post"
 import Login from "./Components/Pages/Auth/Login"
 import Dashboard from "./Components/Pages/Admin/Dashboard"
 import AddPost from "./Components/Pages/Admin/AddPost"
@@ -12,6 +13,13 @@ const routes = [
       component: Home,
       meta: {
         title: `${title} - Selamat Datang!`,
+      },
+    },    
+    {
+      path: "/post/:title/:id",
+      component: Post,
+      meta: {
+        title: `${title} - :title`,
       },
     },
     {

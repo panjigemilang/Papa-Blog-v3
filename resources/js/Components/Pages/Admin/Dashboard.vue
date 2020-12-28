@@ -13,7 +13,7 @@
                     <i class="text-5xl fas fa-circle-notch fa-spin"></i>
                 </div>
                 <div v-else>
-                    <News :newsContent="posts.data" />
+                    <Table :posts="posts.data" />
                 </div>
             </div>
         </div>
@@ -22,12 +22,12 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import News from "../../Partials/News";
+import Table from "../../Partials/Table";
 
 export default {
     name: "Dashboard",
     components: {
-        News
+        Table
     },
     computed: {
         ...mapState("services", ["loading", "user"]),

@@ -28,16 +28,16 @@
                 </button>
             </li>
             <li class="mb-4">
-                <button class="w-full" type="button" v-if="user.who == 'admin'">
-                    <router-link to="/admin">
+                <router-link to="/admin" v-if="user.who == 'admin'">
+                    <button class="w-full" type="button">
                         <i class="text-white fas fa-home fa-primary"></i>
-                    </router-link>
-                </button>
-                <button class="w-full" type="button" v-else>
-                    <router-link to="/">
+                    </button>
+                </router-link>
+                <router-link to="/" v-else>
+                    <button class="w-full" type="button">
                         <i class="text-white fas fa-home fa-primary"></i>
-                    </router-link>
-                </button>
+                    </button>
+                </router-link>
             </li>
             <li class="mb-4 mt-auto">
                 <button class="w-full" type="button" v-if="user.who == 'admin'">
@@ -109,6 +109,7 @@ export default {
 
 nav {
     background-color: $color-primary-dark;
+    z-index: 99;
 
     button:hover {
         box-shadow: none;
@@ -120,10 +121,10 @@ nav {
     }
 
     .nav-btn {
-        background-color: $footer-left;
+        background-color: $bg-secondary;
 
         span {
-            background-color: $color-primary-dark;
+            background-color: #fff;
         }
 
         &.show {

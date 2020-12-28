@@ -1,5 +1,5 @@
 <template>
-    <div class="app min-h-screen bg-gray-900">
+    <div class="app min-h-screen">
         <Navbar />
         <div class="transition-all duration-300">
             <router-view></router-view>
@@ -67,7 +67,6 @@ export default {
 
 html,
 body {
-    color: whitesmoke;
     height: 100%;
     position: relative;
     width: 100%;
@@ -79,6 +78,7 @@ body {
     font-size: 92.5% !important;
     font-family: "Product Sans";
     margin: 0;
+    overflow-x: hidden;
     padding: 0;
 }
 
@@ -209,5 +209,9 @@ input:not([type="date"]) {
     margin-right: auto;
     max-width: 90%;
     position: relative;
+}
+
+.border-1 {
+    border-width: 1px;
 }
 </style>

@@ -1,0 +1,13 @@
+.featured .carousel .carousel__indicators {
+  top: 57%;
+  left: 24%;
+  bottom: unset;
+}
+
+.featured .carousel .carousel__indicator:before {
+  background-color: #2062d4;
+  border-radius: 50%;
+  height: 0.7rem;
+  width: 0.7rem;
+}
+

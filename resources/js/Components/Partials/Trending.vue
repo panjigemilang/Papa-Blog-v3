@@ -35,7 +35,7 @@ export default {
         return {
             contents: [
                 {
-                    image: "https://via.placeholder.com/80x80.png",
+                    image: "http://via.placeholder.com/80x80.png",
                     title:
                         "Haru ga kite anna ni suki datta no ni, habe mo sora mo"
                 }

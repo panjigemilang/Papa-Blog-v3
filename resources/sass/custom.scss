@@ -1,0 +1,16 @@
+@import './variables';
+
+.featured .carousel {
+  .carousel__indicators {    
+    top: 57%;
+    left: 24%;
+    bottom: unset;
+  }
+
+  .carousel__indicator:before {
+      background-color: $bg-primary;
+      border-radius: 50%;
+      height: .7rem;
+      width: .7rem;
+    }
+}
