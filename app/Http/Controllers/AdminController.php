@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Picture;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
@@ -41,6 +42,7 @@ class AdminController extends Controller
             $path = $request->file('image_cover')->move(public_path("/img/cover"), $imageName);
             $imageUrl = "/img/cover/" . $imageName;
 
+
             $post = Post::create([
                 'title' => $request->title,
                 'content' => $request->content,
@@ -48,6 +50,12 @@ class AdminController extends Controller
             ]);
 
             if ($post) {
+                if (!is_null($request->tags)) {
+                    Tag::create([
+                        'post_id' => $post->id,
+                        'tags' => $request->tags
+                    ]);
+                }
                 $status = "success";
                 $message = "post added successfully";
                 $data = $post->toArray();

@@ -77,4 +77,32 @@ class PostController extends Controller
             'data' => $data
         ], $code);
     }
+
+    public function searchPostByTag($tags)
+    {
+        $status = "error";
+        $data = [];
+        $code = 404;
+        $message = "posts data not found";
+
+        $criteria = DB::table('posts')
+            ->join('tags', 'posts.id', 'tags.post_id')
+            ->select('posts.*', 'tags.tags')
+            ->where('tags.tags', 'LIKE', "%" . $tags . "%")
+            ->orderBy('posts.id', 'DESC')
+            ->get();
+
+        if (sizeof($criteria) != 0) {
+            $status = "success";
+            $code = 200;
+            $message = "posts data found";
+            $data = $criteria->toArray();
+        }
+
+        return response()->json([
+            'status' => $status,
+            'message' => $message,
+            'data' => $data
+        ], $code);
+    }
 }
