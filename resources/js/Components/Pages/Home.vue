@@ -1,65 +1,49 @@
 <template>
     <div>
-        <Featured :galleryContent="galleryContent" />
-        <div class="flex flex-row">
-            <News :newsContent="newsContent" />
-        </div>
-        <div class="latest-post container mt-12">
-            <div class="heading mb-16 w-7/12">
-                <h1 class="text-4xl">
-                    Latest Posts
-                </h1>
-                <p>
-                    Latest posts that currently hot, we provide super cool all
-                    news around the world
-                </p>
+        <Loading v-if="loading" />
+        <div v-else>
+            <NavTags />
+            <Featured :galleryContent="posts.data[0].data" />
+            <div class="flex flex-row">
+                <News :newsContent="newsContent" />
             </div>
-            <NewsCard />
+            <div class="latest-post container mt-12">
+                <div class="heading mb-16 w-7/12">
+                    <h1 class="text-4xl">
+                        Latest Posts
+                    </h1>
+                    <p>
+                        Latest posts that currently hot, we provide super cool
+                        all news around the world
+                    </p>
+                </div>
+                <NewsCard />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
+import NavTags from "../Partials/NavTags";
 import Featured from "../Partials/Featured";
 import News from "../Partials/News";
 import NewsCard from "../Partials/NewsCard";
 import Trending from "../Partials/Trending";
+import Loading from "../Utils/Loading";
 
 export default {
     name: "Home",
     components: {
+        NavTags,
         Featured,
         News,
         NewsCard,
-        Trending
+        Trending,
+        Loading
     },
     data() {
         return {
-            galleryContent: [
-                {
-                    image: "/img/assets/home.jpg",
-                    title:
-                        "Seorang mahasiswa tamvan menakhlukan seluruh wanita jepang hanya dengan senyuman manis"
-                },
-                {
-                    image: "/storage/neru.jpeg",
-                    title: "Sepasang mahasiswa siap melakukan kegiatan g4y"
-                },
-                {
-                    image: "/storage/neru 2.jpeg",
-                    title: "Naruto Priyambodo ditemukan ternyata asli Blitar!"
-                },
-                {
-                    image: "/storage/tidur.jpeg",
-                    title: "Seorang mahasiswa tertidur saat sedang tidur siang"
-                },
-                {
-                    image: "/storage/insang.jpeg",
-                    title:
-                        "Mahasiswa ini ternyata menyimpan anak kecil didalam jaketnya wow!"
-                }
-            ],
             newsContent: [
                 {
                     id: 1,
@@ -78,7 +62,14 @@ export default {
         };
     },
     computed: {
-        ...mapState("services", ["user", "isAuthenticated"])
+        ...mapState("services", ["user", "isAuthenticated"]),
+        ...mapState("posts", ["loading", "posts"])
+    },
+    methods: {
+        ...mapActions("posts", ["getPosts"])
+    },
+    created() {
+        this.getPosts();
     }
 };
 </script>

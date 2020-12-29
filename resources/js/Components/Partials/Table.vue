@@ -7,10 +7,10 @@
                         <th class="w-auto">
                             No
                         </th>
-                        <th class="w-3/12">
+                        <th class="w-2/12">
                             Title
                         </th>
-                        <th class="w-4/12">
+                        <th class="w-3/12">
                             Cover
                         </th>
                         <th class="w-2/12">
@@ -18,6 +18,9 @@
                         </th>
                         <th class="w-2/12">
                             Modified
+                        </th>
+                        <th class="w-2/12">
+                            Action
                         </th>
                     </tr>
                 </thead>
@@ -36,6 +39,20 @@
                         <td class="text-center">
                             {{ post.updated_at }}
                         </td>
+                        <td class="text-center">
+                            <router-link
+                                class="text-blue-400 hover:text-blue-500 p-4"
+                                :to="'/editPost/' + post.id"
+                            >
+                                Edit
+                            </router-link>
+                            <button
+                                class="text-red-400 hover:text-red-500"
+                                @click.prevent="onDelete(post.id)"
+                            >
+                                Delete
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -44,6 +61,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import moment from "moment";
 
 export default {
@@ -65,6 +83,18 @@ export default {
 
             return posts;
         }
+    },
+    methods: {
+        ...mapActions("posts", ["deletePost"]),
+        onDelete(postId) {
+            const confirm = window.confirm(
+                "Are you sure you want to delete it?"
+            );
+
+            if (confirm) {
+                this.deletePost();
+            }
+        }
     }
 };
 </script>
@@ -74,5 +104,9 @@ th,
 td {
     border: 1px rgba($color: #000000, $alpha: 0.8) solid;
     padding: 16px;
+}
+
+button:hover {
+    box-shadow: none !important;
 }
 </style>

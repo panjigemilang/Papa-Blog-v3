@@ -7,6 +7,12 @@ import AddPost from "./Components/Pages/Admin/AddPost"
 
 const title = "Papa Blog"
 
+const privateRoute = (url, next) => {
+  
+  if (localStorage.jwtToken) next()
+  else next(url)
+}
+
 const routes = [
     {
       path: "/",
@@ -35,6 +41,9 @@ const routes = [
       meta: {
         title: `${title} - Dashboard`,
       },
+      beforeEnter: (to, from, next) => {
+        privateRoute('/', next)
+      }
     },    
     {
       path: "/add",

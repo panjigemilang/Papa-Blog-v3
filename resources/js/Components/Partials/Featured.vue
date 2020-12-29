@@ -24,52 +24,36 @@ export default {
         galleryContent: Array
     },
     data() {
-        return {
-            items: [
-                `
+        const items = [];
+        const maxChar = 100;
+        const concateText = " ...";
+
+        this.galleryContent.map((item, i) =>
+            items.push(`
                 <div class="flex flex-col">
                     <p class="mb-6">Tag</p>
-                    <h1 class="font-bold text-5xl mb-6">
-                        Title: Nehru Priyambodo suka memasang behel Lesti
-                    </h1>
-                    <p class="text-lg mb-6">
-                        Sangat disayangkan padahal masih muda
-                    </p>
+                    <h1 class="font-bold text-5xl mb-6">${item.title}</h1>
+                    <p class="text-lg mb-6">${
+                        item.content.length > maxChar
+                            ? this.shorten(item.content, maxChar).concat(
+                                  concateText
+                              )
+                            : item.content
+                    }</p>
                 </div>
-                `,
-                `<div class="flex flex-col">
-                    <p class="mb-6">Tag</p>
-                    <h1 class="font-bold text-5xl mb-6">
-                        Title: Panji Gemilang
-                    </h1>
-                    <p class="text-lg mb-6">
-                        Ngakak abieez
-                    </p>
-                </div>`
-            ]
-        };
-    }
-    // computed: {
-    //     carouselData() {
-    //         const data = []
-    //         let temp
+            `)
+        );
 
-    //         this.galleryContent.map(item => {
-    //             temp.push(`
-    //                 <div
-    //             `)
-    //         })
-    //     }
-    // }
+        return {
+            items
+        };
+    },
+    methods: {
+        shorten(str, maxLen, separator) {
+            if (str.length <= maxLen) return str;
+
+            return str.substr(0, str.lastIndexOf(separator, maxLen));
+        }
+    }
 };
 </script>
-
-<style lang="scss" scoped>
-.carousel button.carousel__control--prev {
-    left: 11rem !important;
-}
-
-.carousel .carousel__indicator::before {
-    background-color: black !important;
-}
-</style>

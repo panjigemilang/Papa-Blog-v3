@@ -214,4 +214,17 @@ input:not([type="date"]) {
 .border-1 {
     border-width: 1px;
 }
+
+.overlay {
+    background: rgb(61, 164, 249);
+    background: linear-gradient(
+        180deg,
+        rgba(61, 164, 249, 0) 0%,
+        rgba(0, 0, 0, 0.75) 100%
+    );
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
 </style>

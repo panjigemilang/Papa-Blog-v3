@@ -1,36 +1,30 @@
 <template>
-    <div class="trending relative md:w-5/12">
-        <div class="sticky top-0 p-4">
-            <h1 class="tracking-widest text-lg mb-4 font-black">
-                TRENDING NOW
-            </h1>
-            <div
-                class="flex flex-row"
-                v-for="(content, i) in contents"
-                :key="i"
-            >
-                <a href="#">
-                    <img
-                        :src="content.image"
-                        alt="Thumbnail"
-                        class="thumbnail object-cover rounded-lg"
-                    />
-                </a>
-                <h2 class="w-max px-4 py-2">
-                    <strong>
-                        <a href="#">
-                            {{ content.title }}
-                        </a>
-                    </strong>
-                </h2>
-            </div>
+    <div class="trending sticky top-0 py-8 px-4">
+        <h1 class="tracking-widest text-lg mb-4 font-black">
+            TRENDING NOW
+        </h1>
+        <div class="flex flex-row" v-for="(content, i) in contents" :key="i">
+            <a href="#">
+                <img
+                    :src="content.image"
+                    alt="Thumbnail"
+                    class="thumbnail object-cover rounded-lg"
+                />
+            </a>
+            <h2 class="w-max px-4 py-2">
+                <strong>
+                    <a href="#">
+                        {{ content.title }}
+                    </a>
+                </strong>
+            </h2>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "Trending-News",
+    name: "Trending_News",
     data() {
         return {
             contents: [

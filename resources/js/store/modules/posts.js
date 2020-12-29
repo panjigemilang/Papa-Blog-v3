@@ -1,6 +1,7 @@
 import axios from "axios"
 
-const BASE_URL = "/api/posts"
+const BASE_URL = "/api/posts/"
+const POST_URL = "/api/post/"
 
 const namespaced = true
 
@@ -31,7 +32,7 @@ const actions = {
     commit("setLoading")
 
     await axios
-      .post(BASE_URL + "/addPost", payload)
+      .post(BASE_URL + "addPost", payload)
       .then(res => {
         console.log("Add Post Res : ", res);
       })
@@ -42,23 +43,32 @@ const actions = {
 
     commit("setLoading")
     },
- async getAllPosts({ commit }) {
+ async getPosts({ commit }, num = 5) {
     commit("setLoading")
 
     await axios
-      .get(BASE_URL + "/getAllPosts")
+      .get(BASE_URL + num)
       .then(res => {
-        console.log("Get Post Res : ", res);
-
         commit('setPosts', res.data);
       })
       .catch(err => {
-        console.log("Err", err);
         commit("setErrors", err.response.data)
       })
 
     commit('setLoading')
-    }
+    },
+  async deletePost({ commit }, id) {
+    commit("setLoading")
+
+    await axios
+      .delete(POST_URL + id)
+      .then(res => {
+        console.log("Delete Success", res);
+      })
+      .catch(err => {
+        commit("setErrors", err.response.data)
+      })
+  }
 
 }
 

@@ -9,7 +9,7 @@
                     class="w-full"
                     type="button"
                     v-if="isAuthenticated"
-                    @click.prevent="logout"
+                    @click.prevent="onLogout"
                 >
                     <div
                         class="bg-red-600 rounded-full h-14 w-14 flex items-center justify-center"
@@ -40,6 +40,13 @@
                 </router-link>
             </li>
             <li class="mb-4 mt-auto">
+                <router-link to="/admin" v-if="user.who == 'admin'">
+                    <button class="w-full" type="button">
+                        <i class="text-white fas fa-columns fa-primary"></i>
+                    </button>
+                </router-link>
+            </li>
+            <li class="mb-4">
                 <button class="w-full" type="button" v-if="user.who == 'admin'">
                     <router-link to="/add">
                         <div
@@ -94,6 +101,11 @@ export default {
         },
         addPost() {
             alert("add post");
+        },
+        onLogout() {
+            this.logout();
+
+            this.$router.push("/");
         }
     }
 };

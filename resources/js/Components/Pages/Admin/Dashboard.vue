@@ -13,7 +13,7 @@
                     <i class="text-5xl fas fa-circle-notch fa-spin"></i>
                 </div>
                 <div v-else>
-                    <Table :posts="posts.data" />
+                    <Table :posts="posts.data[0].data" />
                 </div>
             </div>
         </div>
@@ -38,10 +38,12 @@ export default {
     },
     methods: {
         ...mapActions("services", ["getUser"]),
-        ...mapActions("posts", ["getAllPosts"])
+        ...mapActions("posts", ["getPosts"])
     },
     created() {
-        this.getAllPosts();
+        const limit = 5;
+
+        this.getPosts(limit);
     }
 };
 </script>

@@ -17,3 +17,24 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// For Admin
+Route::post('/users/login', 'Auth\AuthController@login');
+Route::post('/post', 'AdminController@createPost');
+Route::post('/post/{id}', 'AdminController@editPost');
+Route::delete('/post/{id}', 'AdminController@deletePost');
+
+// For Posts
+Route::get('/posts/{num}', 'Post\PostController@getPosts');
+Route::get('/post/{id}', 'Post\PostController@getPost');
+Route::get('/post/title/{title}', 'Post\PostController@searchPost');
+
+// For User
+Route::post('/like/post/{id}', 'UserController@likePost');
+Route::post('/comment/post/{id}', 'UserController@commentPost');
+Route::get('/comments/{id}', 'UserController@getComments');
+Route::get('/likes/{id}', 'UserController@getLikes');
+Route::delete('/comment/post/{id}', 'UserController@removeComment');
+Route::delete('/like/post/{id}', 'UserController@unlikePost');
+Route::get('/profile/{id}', 'UserController@getProfile');
+Route::put('/profile', 'UserController@editProfile');
