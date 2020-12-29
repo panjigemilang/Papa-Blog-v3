@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
 
 class AdminController extends Controller
 {
@@ -92,7 +93,8 @@ class AdminController extends Controller
             $post = Post::find($id);
 
             if (!is_null($post)) {
-                $targetFile = str_replace('http://localhost:8080/Papa-Blog-v3/public/', '', $post->image_cover);
+                $baseUrl = URL::to('/');
+                $targetFile = str_replace($baseUrl . '/', '', $post->image_cover);
                 unlink(public_path($targetFile));
 
                 $imageName = time() . "image." . $request->file('image_cover')->getClientOriginalExtension();
@@ -131,7 +133,8 @@ class AdminController extends Controller
         $post = Post::find($id);
         
         if (!is_null($post)) {
-            $targetFile = str_replace('http://localhost:8080/Papa-Blog-v3/public/', '', $post->image_cover);
+            $baseUrl = URL::to('/');
+            $targetFile = str_replace($baseUrl . '/', '', $post->image_cover);
             unlink(public_path($targetFile));
             $post->delete();
 
