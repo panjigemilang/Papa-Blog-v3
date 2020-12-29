@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Picture;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -38,7 +39,7 @@ class AdminController extends Controller
         } else {
             $imageName = time() . "image." . $request->file('image_cover')->getClientOriginalExtension();
             $path = $request->file('image_cover')->move(public_path("/img/cover"), $imageName);
-            $imageUrl = url("/img/cover/" . $imageName);
+            $imageUrl = "/img/cover/" . $imageName;
 
             $post = Post::create([
                 'title' => $request->title,
@@ -91,14 +92,23 @@ class AdminController extends Controller
             }
         } else {
             $post = Post::find($id);
+            $pictures = Picture::where('post_id', $id)->get();
+
+            if (sizeof($pictures) != 0) {
+                foreach ($pictures as $pic) {
+                    // unlink(public_path($pic->img_path));
+                    $pic->delete();
+                }
+            }
+
+            //TODO: upload image from rich text
+
             if (!is_null($post)) {
-                $baseUrl = URL::to('/');
-                $targetFile = str_replace($baseUrl . '/', '', $post->image_cover);
-                unlink(public_path($targetFile));
+                unlink(public_path($post->image_cover));
 
                 $imageName = time() . "image." . $request->file('image_cover')->getClientOriginalExtension();
                 $path = $request->file('image_cover')->move(public_path("/img/cover"), $imageName);
-                $imageUrl = url("/img/cover/" . $imageName);
+                $imageUrl = "/img/cover/" . $imageName;
 
                 $post->image_cover = $imageUrl;
                 $post->title = $request->title;
@@ -130,10 +140,17 @@ class AdminController extends Controller
         $message = "";
 
         $post = Post::find($id);
+        $pictures = Picture::where('post_id', $id)->get();
+
+        if (sizeof($pictures) != 0) {
+            foreach ($pictures as $pic) {
+                // unlink(public_path($pic->img_path));
+                $pic->delete();
+            }
+        }
+
         if (!is_null($post)) {
-            $baseUrl = URL::to('/');
-            $targetFile = str_replace($baseUrl . '/', '', $post->image_cover);
-            unlink(public_path($targetFile));
+            unlink(public_path($post->image_cover));
             $post->delete();
 
             $status = "success";
