@@ -43,7 +43,7 @@ const actions = {
 
     commit("setLoading")
     },
- async getPosts({ commit }, num = 5) {
+ async getPosts({ commit }, num = 3) {
     commit("setLoading")
 
     await axios

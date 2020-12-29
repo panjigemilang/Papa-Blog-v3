@@ -5,7 +5,7 @@
             <NavTags />
             <Featured :galleryContent="posts.data[0].data" />
             <div class="flex flex-row">
-                <News :newsContent="newsContent" />
+                <News :newsContent="posts.data[0].data" />
             </div>
             <div class="latest-post container mt-12">
                 <div class="heading mb-16 w-7/12">
@@ -41,25 +41,6 @@ export default {
         NewsCard,
         Trending,
         Loading
-    },
-    data() {
-        return {
-            newsContent: [
-                {
-                    id: 1,
-                    title: "Yin Yang, sebuah kekuatan bersatu dalam satu rasa",
-                    description: "Kucing ini tertidur pulas",
-                    thumbnail: "/storage/kucing.jpeg"
-                },
-                {
-                    id: 2,
-                    title:
-                        "Ngakak abieez Cyberbug 2077 berasa seperti Cyberpunk jaman perang!",
-                    description: "duar duar",
-                    thumbnail: "/storage/kucing.jpeg"
-                }
-            ]
-        };
     },
     computed: {
         ...mapState("services", ["user", "isAuthenticated"]),

@@ -17,7 +17,12 @@
                         <i class="text-white fas fa-sign-in-alt"></i>
                     </div>
                 </button>
-                <button class="w-full" type="button" v-else>
+                <button
+                    class="w-full"
+                    @click="toggleNavbar"
+                    type="button"
+                    v-else
+                >
                     <router-link to="/login">
                         <div
                             class="bg-green-400 rounded-full h-14 w-14 flex items-center justify-center"
@@ -28,26 +33,26 @@
                 </button>
             </li>
             <li class="mb-4">
-                <router-link to="/admin" v-if="user.who == 'admin'">
-                    <button class="w-full" type="button">
-                        <i class="text-white fas fa-home fa-primary"></i>
-                    </button>
-                </router-link>
-                <router-link to="/" v-else>
-                    <button class="w-full" type="button">
+                <router-link to="/">
+                    <button class="w-full" @click="toggleNavbar" type="button">
                         <i class="text-white fas fa-home fa-primary"></i>
                     </button>
                 </router-link>
             </li>
             <li class="mb-4 mt-auto">
                 <router-link to="/admin" v-if="user.who == 'admin'">
-                    <button class="w-full" type="button">
+                    <button class="w-full" @click="toggleNavbar" type="button">
                         <i class="text-white fas fa-columns fa-primary"></i>
                     </button>
                 </router-link>
             </li>
             <li class="mb-4">
-                <button class="w-full" type="button" v-if="user.who == 'admin'">
+                <button
+                    class="w-full"
+                    @click="toggleNavbar"
+                    type="button"
+                    v-if="user.who == 'admin'"
+                >
                     <router-link to="/add">
                         <div
                             class="bg-green-600 rounded-full h-14 w-14 flex items-center justify-center"
@@ -104,6 +109,7 @@ export default {
         },
         onLogout() {
             this.logout();
+            this.toggleNavbar();
 
             this.$router.push("/");
         }

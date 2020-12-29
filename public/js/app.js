@@ -3005,6 +3005,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3019,6 +3024,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     onLogout: function onLogout() {
       this.logout();
+      this.toggleNavbar();
       this.$router.push("/");
     }
   })
@@ -3102,6 +3108,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Add_Post",
@@ -3109,32 +3146,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       title: "",
       content: "",
-      image_cover: {}
+      image_cover: {},
+      tags: [],
+      tagsVal: "",
+      uploadReady: true
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("posts", ["loading"])),
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("posts", ["addPost"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("services", ["setErrors"])), {}, {
+    addTag: function addTag() {
+      if (!this.tagsVal == "") this.tags.push(this.tagsVal.trim());
+      this.tagsVal = "";
+    },
+    deleteTag: function deleteTag(index) {
+      this.tags.splice(index, 1);
+    },
     createPost: function createPost() {
+      var _this = this;
+
       // Extracting all the base64 images
       var image_files = this.content.match(/data:image.+?(?=")/g); // replacing the img tag with empty src to be replace later
 
-      var content = this.content.replace(/data:image.+?(?=")/g, ""); // const data = {
-      //     image_files,
-      //     title: this.title,
-      //     content
-      //     image_cover: this.image_cover
-      // };
-      // console.log("Data : ", data);
-
+      var content = this.content.replace(/data:image.+?(?=")/g, "");
       var data = new FormData();
       data.append("title", this.title);
       data.append("content", content);
       data.append("image_files", image_files);
-      data.append("image_cover", this.image_cover); // for (let pair of data.entries()) {
-      //     console.log(pair[0] + ", " + pair[1]);
-      // }
+      data.append("image_cover", this.image_cover);
+      data.append("tags", this.tags);
+      this.addPost(data).then(function () {
+        // emptying all the values
+        _this.title = "";
+        _this.content = "";
+        _this.tags = [];
+        _this.uploadReady = false;
 
-      this.addPost(data).then(function () {});
+        _this.$nextTick(function () {
+          _this.uploadReady = true;
+        });
+      });
     },
     onChangeImage: function onChangeImage(e) {
       var sizeLimit = 2000000;
@@ -3145,7 +3195,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       }
 
-      console.log("Files", e.target.files[0]);
       this.image_cover = e.target.files[0];
     }
   })
@@ -3395,21 +3444,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Trending: _Partials_Trending__WEBPACK_IMPORTED_MODULE_5__["default"],
     Loading: _Utils_Loading__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
-  data: function data() {
-    return {
-      newsContent: [{
-        id: 1,
-        title: "Yin Yang, sebuah kekuatan bersatu dalam satu rasa",
-        description: "Kucing ini tertidur pulas",
-        thumbnail: "/storage/kucing.jpeg"
-      }, {
-        id: 2,
-        title: "Ngakak abieez Cyberbug 2077 berasa seperti Cyberpunk jaman perang!",
-        description: "duar duar",
-        thumbnail: "/storage/kucing.jpeg"
-      }]
-    };
-  },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("services", ["user", "isAuthenticated"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])("posts", ["loading", "posts"])),
   methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("posts", ["getPosts"])),
   created: function created() {
@@ -3429,6 +3463,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Partials_Trending__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Partials/Trending */ "./resources/js/Components/Partials/Trending.vue");
+/* harmony import */ var vue_fragment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-fragment */ "./node_modules/vue-fragment/dist/vue-fragment.esm.js");
 //
 //
 //
@@ -3521,10 +3556,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Post_Detail",
   components: {
-    Trending: _Partials_Trending__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Trending: _Partials_Trending__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Fragment: vue_fragment__WEBPACK_IMPORTED_MODULE_1__["Fragment"]
   }
 });
 
@@ -45892,7 +45929,11 @@ var render = function() {
               )
             : _c(
                 "button",
-                { staticClass: "w-full", attrs: { type: "button" } },
+                {
+                  staticClass: "w-full",
+                  attrs: { type: "button" },
+                  on: { click: _vm.toggleNavbar }
+                },
                 [
                   _c("router-link", { attrs: { to: "/login" } }, [
                     _c(
@@ -45917,29 +45958,17 @@ var render = function() {
           "li",
           { staticClass: "mb-4" },
           [
-            _vm.user.who == "admin"
-              ? _c("router-link", { attrs: { to: "/admin" } }, [
-                  _c(
-                    "button",
-                    { staticClass: "w-full", attrs: { type: "button" } },
-                    [
-                      _c("i", {
-                        staticClass: "text-white fas fa-home fa-primary"
-                      })
-                    ]
-                  )
-                ])
-              : _c("router-link", { attrs: { to: "/" } }, [
-                  _c(
-                    "button",
-                    { staticClass: "w-full", attrs: { type: "button" } },
-                    [
-                      _c("i", {
-                        staticClass: "text-white fas fa-home fa-primary"
-                      })
-                    ]
-                  )
-                ])
+            _c("router-link", { attrs: { to: "/" } }, [
+              _c(
+                "button",
+                {
+                  staticClass: "w-full",
+                  attrs: { type: "button" },
+                  on: { click: _vm.toggleNavbar }
+                },
+                [_c("i", { staticClass: "text-white fas fa-home fa-primary" })]
+              )
+            ])
           ],
           1
         ),
@@ -45952,7 +45981,11 @@ var render = function() {
               ? _c("router-link", { attrs: { to: "/admin" } }, [
                   _c(
                     "button",
-                    { staticClass: "w-full", attrs: { type: "button" } },
+                    {
+                      staticClass: "w-full",
+                      attrs: { type: "button" },
+                      on: { click: _vm.toggleNavbar }
+                    },
                     [
                       _c("i", {
                         staticClass: "text-white fas fa-columns fa-primary"
@@ -45969,7 +46002,11 @@ var render = function() {
           _vm.user.who == "admin"
             ? _c(
                 "button",
-                { staticClass: "w-full", attrs: { type: "button" } },
+                {
+                  staticClass: "w-full",
+                  attrs: { type: "button" },
+                  on: { click: _vm.toggleNavbar }
+                },
                 [
                   _c("router-link", { attrs: { to: "/add" } }, [
                     _c(
@@ -46053,7 +46090,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "min-h-screen w-full" }, [
+  return _c("div", { staticClass: "min-h-screen w-full add-post" }, [
     _c("div", { staticClass: "container py-8" }, [
       _c("h1", { staticClass: "heading text-center text-3xl font-black" }, [
         _vm._v("\n            Add Post\n        ")
@@ -46091,7 +46128,8 @@ var render = function() {
                 attrs: {
                   type: "text",
                   placeholder: "New Post Title",
-                  name: "title"
+                  name: "title",
+                  required: ""
                 },
                 domProps: { value: _vm.title },
                 on: {
@@ -46113,9 +46151,10 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "md:w-10/12" },
+              { staticClass: "md:w-10/12 content" },
               [
                 _c("wysiwyg", {
+                  attrs: { "aria-required": "true" },
                   model: {
                     value: _vm.content,
                     callback: function($$v) {
@@ -46135,11 +46174,89 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "md:w-10/12" }, [
+              _vm.uploadReady
+                ? _c("input", {
+                    staticClass: "form-control",
+                    attrs: { type: "file", name: "image_cover", required: "" },
+                    on: { change: _vm.onChangeImage }
+                  })
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex flex-row flex-wrap my-8" }, [
+            _c("label", { staticClass: "md:w-2/12 leading-10" }, [
+              _vm._v("Tags")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "md:w-10/12" }, [
               _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.tagsVal,
+                    expression: "tagsVal"
+                  }
+                ],
                 staticClass: "form-control",
-                attrs: { type: "file", name: "image_cover" },
-                on: { change: _vm.onChangeImage }
-              })
+                attrs: { type: "text", placeholder: "Tags ... ", name: "tags" },
+                domProps: { value: _vm.tagsVal },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !$event.type.indexOf("key") &&
+                      _vm._k($event.keyCode, "space", 32, $event.key, [
+                        " ",
+                        "Spacebar"
+                      ])
+                    ) {
+                      return null
+                    }
+                    return _vm.addTag($event)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.tagsVal = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("small", [_vm._v("Add tags by pressing spacebar")]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex flex-row flex-wrap mt-3" },
+                _vm._l(_vm.tags, function(tag, i) {
+                  return _c(
+                    "p",
+                    {
+                      key: "tag-" + i,
+                      staticClass:
+                        "p-2 mr-3 opacity-80 rounded-lg text-white bg-green-300"
+                    },
+                    [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(tag) +
+                          "\n                            "
+                      ),
+                      _c("i", {
+                        staticClass: "cursor-pointer fas fa-times ml-1",
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.deleteTag(i)
+                          }
+                        }
+                      })
+                    ]
+                  )
+                }),
+                0
+              )
             ])
           ]),
           _vm._v(" "),
@@ -46406,7 +46523,9 @@ var render = function() {
               _c(
                 "div",
                 { staticClass: "flex flex-row" },
-                [_c("News", { attrs: { newsContent: _vm.newsContent } })],
+                [
+                  _c("News", { attrs: { newsContent: _vm.posts.data[0].data } })
+                ],
                 1
               ),
               _vm._v(" "),
@@ -46694,18 +46813,20 @@ var render = function() {
                 { staticClass: "font-black mb-4 tracking-wide md:text-4xl" },
                 [
                   _c(
-                    "a",
+                    "router-link",
                     {
                       staticClass: "transition-all duration-300 title",
                       attrs: {
-                        href:
-                          "post/" +
-                          content.title
-                            .toLowerCase()
-                            .replace(/\s|\+/g, "-")
-                            .replace(/:|&\s|,|;|\./g, "") +
-                          "/" +
-                          content.id
+                        to: {
+                          name: "Post",
+                          params: {
+                            id: content.id,
+                            title: content.title
+                              .toLowerCase()
+                              .replace(/\s|\+/g, "-")
+                              .replace(/:|&\s|,|;|\./g, "")
+                          }
+                        }
                       }
                     },
                     [
@@ -46716,31 +46837,28 @@ var render = function() {
                       )
                     ]
                   )
-                ]
+                ],
+                1
               ),
               _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(content.description) +
-                    "\n            "
-                )
-              ])
+              _c("p", { domProps: { innerHTML: _vm._s(content.content) } })
             ]),
             _vm._v(" "),
             _c(
-              "a",
+              "router-link",
               {
                 staticClass: "w-5/12",
                 attrs: {
-                  href:
-                    "post/" +
-                    content.title
-                      .toLowerCase()
-                      .replace(/\s|\+/g, "-")
-                      .replace(/:|&\s|,|;|\./g, "") +
-                    "/" +
-                    content.id
+                  to: {
+                    name: "Post",
+                    params: {
+                      id: content.id,
+                      title: content.title
+                        .toLowerCase()
+                        .replace(/\s|\+/g, "-")
+                        .replace(/:|&\s|,|;|\./g, "")
+                    }
+                  }
                 }
               },
               [
@@ -46748,15 +46866,16 @@ var render = function() {
                   staticClass:
                     "rounded-lg object-cover thumbnail w-10/12 mx-auto",
                   attrs: {
-                    src: content.thumbnail
-                      ? content.thumbnail
-                      : "http://via.placeholder.com/630x430.png",
+                    src: content.image_cover
+                      ? content.image_cover
+                      : "img/cover/default.jpg",
                     alt: "Image"
                   }
                 })
               ]
             )
-          ]
+          ],
+          1
         )
       }),
       _vm._v(" "),
@@ -65113,7 +65232,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_wysiwyg__WEBPACK_IMPORTED_MOD
   forcePlainTextOnPaste: true
 });
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(_chenfengyuan_vue_carousel__WEBPACK_IMPORTED_MODULE_7___default.a);
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_fragment__WEBPACK_IMPORTED_MODULE_8__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_fragment__WEBPACK_IMPORTED_MODULE_8__["Fragment"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]);
 var vm = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
   el: '#root',
@@ -65161,10 +65280,8 @@ var routes = [{
   }
 }, {
   path: "/post/:title/:id",
-  component: _Components_Pages_Post__WEBPACK_IMPORTED_MODULE_2__["default"],
-  meta: {
-    title: "".concat(title, " - :title")
-  }
+  name: 'Post',
+  component: _Components_Pages_Post__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
   path: "/login",
   component: _Components_Pages_Auth_Login__WEBPACK_IMPORTED_MODULE_3__["default"],
@@ -65194,6 +65311,11 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
 router.beforeEach(function (to, from, next) {
   window.scrollTo(0, 0);
   document.title = to.meta.title;
+
+  if (to.params.title) {
+    document.title = to.params.title.replace(/-/g, ' ');
+  }
+
   next();
 });
 /* harmony default export */ __webpack_exports__["default"] = (router);
@@ -65355,7 +65477,7 @@ var actions = {
           switch (_context2.prev = _context2.next) {
             case 0:
               commit = _ref2.commit;
-              num = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 5;
+              num = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 3;
               commit("setLoading");
               _context2.next = 5;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(BASE_URL + num).then(function (res) {

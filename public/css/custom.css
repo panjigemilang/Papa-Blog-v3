@@ -11,3 +11,9 @@
   width: 0.7rem;
 }
 
+.add-post .content img {
+  max-height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+

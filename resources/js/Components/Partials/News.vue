@@ -7,47 +7,47 @@
         >
             <div class="content pr-28 pt-4 w-7/12">
                 <h1 class="font-black mb-4 tracking-wide md:text-4xl">
-                    <a
+                    <router-link
                         class="transition-all duration-300 title"
-                        :href="
-                            'post/' +
-                                content.title
+                        :to="{
+                            name: 'Post',
+                            params: {
+                                id: content.id,
+                                title: content.title
                                     .toLowerCase()
                                     .replace(/\s|\+/g, '-')
-                                    .replace(/:|&\s|,|;|\./g, '') +
-                                '/' +
-                                content.id
-                        "
+                                    .replace(/:|&\s|,|;|\./g, '')
+                            }
+                        }"
                     >
                         {{ content.title }}
-                    </a>
+                    </router-link>
                 </h1>
-                <p>
-                    {{ content.description }}
-                </p>
+                <p v-html="content.content"></p>
             </div>
-            <a
+            <router-link
                 class="w-5/12"
-                :href="
-                    'post/' +
-                        content.title
+                :to="{
+                    name: 'Post',
+                    params: {
+                        id: content.id,
+                        title: content.title
                             .toLowerCase()
                             .replace(/\s|\+/g, '-')
-                            .replace(/:|&\s|,|;|\./g, '') +
-                        '/' +
-                        content.id
-                "
+                            .replace(/:|&\s|,|;|\./g, '')
+                    }
+                }"
             >
                 <img
                     :src="
-                        content.thumbnail
-                            ? content.thumbnail
-                            : 'http://via.placeholder.com/630x430.png'
+                        content.image_cover
+                            ? content.image_cover
+                            : 'img/cover/default.jpg'
                     "
                     alt="Image"
                     class="rounded-lg object-cover thumbnail w-10/12 mx-auto"
                 />
-            </a>
+            </router-link>
         </div>
         <div class="text-center my-8">
             <router-link to="posts">

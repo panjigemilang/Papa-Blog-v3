@@ -23,10 +23,8 @@ const routes = [
     },    
     {
       path: "/post/:title/:id",
+      name: 'Post',
       component: Post,
-      meta: {
-        title: `${title} - :title`,
-      },
     },
     {
       path: "/login",
@@ -62,6 +60,11 @@ const router = new VueRouter({
   router.beforeEach((to, from, next) => {
     window.scrollTo(0, 0)
     document.title = to.meta.title
+    
+    if (to.params.title) {
+      document.title = to.params.title.replace(/-/g, ' ')
+    }
+
     next()
   })
 

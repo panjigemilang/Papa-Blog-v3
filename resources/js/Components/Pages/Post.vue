@@ -91,11 +91,13 @@
 
 <script>
 import Trending from "../Partials/Trending";
+import { Fragment } from "vue-fragment";
 
 export default {
     name: "Post_Detail",
     components: {
-        Trending
+        Trending,
+        Fragment
     }
 };
 </script>

@@ -17,7 +17,7 @@ import VueRouter from 'vue-router'
 import router from './routes'
 import wysiwyg from "vue-wysiwyg";
 import VueCarousel from '@chenfengyuan/vue-carousel';
-import Fragment from 'vue-fragment'
+import { Fragment } from 'vue-fragment'
 import "vue-wysiwyg/dist/vueWysiwyg.css";
 
 Vue.use(wysiwyg, {
