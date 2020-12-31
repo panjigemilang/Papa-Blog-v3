@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/api/posts/addPost', 'Post\PostController@addPost');
-Route::get('/api/posts/getAllPosts', 'Post\PostController@getAllPosts');
 // Route::get('/api/users/', 'Auth\AuthController@getAuthenticatedUser')->middleware('jwt.verify');
 
 Route::middleware('jwt.verify')->group(function() {

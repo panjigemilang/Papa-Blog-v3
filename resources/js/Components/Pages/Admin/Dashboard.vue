@@ -1,11 +1,6 @@
 <template>
     <div class="min-h-screen w-full">
-        <div
-            class="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2"
-            v-if="loading"
-        >
-            <i class="text-5xl fas fa-circle-notch fa-spin"></i>
-        </div>
+        <Loading v-if="loading" />
         <div v-else>
             <div class="container py-8">
                 <h1 class="text-lg">Selamat datang, {{ user.name }}!</h1>
@@ -13,7 +8,7 @@
                     <i class="text-5xl fas fa-circle-notch fa-spin"></i>
                 </div>
                 <div v-else>
-                    <Table :posts="posts.data[0].data" />
+                    <Table :posts="posts.data.data" />
                 </div>
             </div>
         </div>
@@ -23,11 +18,13 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import Table from "../../Partials/Table";
+import Loading from "../../Utils/Loading";
 
 export default {
     name: "Dashboard",
     components: {
-        Table
+        Table,
+        Loading
     },
     computed: {
         ...mapState("services", ["loading", "user"]),

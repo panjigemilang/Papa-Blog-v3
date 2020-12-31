@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 // Models
 use App\Models\Post\Post;
 use App\Models\Post\Pictures;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -23,9 +24,9 @@ class PostController extends Controller
 
                 try {
                     // public folder to store image
-                    $folder = 'img/';
+                    $folder = '/img/';
                     // convert string to array
-                    $image_files = explode(' ', $req->image_files);
+                    $image_files = preg_split('@(?=,data:),@', $req->image_files);
 
                     foreach ($image_files as $image) { 
                         // extract the extension from base64
@@ -39,6 +40,30 @@ class PostController extends Controller
                             'post_id' => $post->id,
                             'img_path' => $folder . $filename
                         ]);
+                    }
+
+                    try {
+                        if ($req->tags != 'null') {
+                            // convert string to array
+                            $tags = explode(' ', $req->tags);
+                            $tagVal = array();
+                            $i = 0;
+
+                            foreach ($tags as $tag) { 
+                                $tagVal[$i]['post_id'] = $post->id;
+                                $tagVal[$i]['tags'] = $tag;
+                                $tagVal[$i]['created_at'] = date('Y-m-d H:i:s');
+                                $tagVal[$i]['updated_at'] = date('Y-m-d H:i:s');
+                                $i++;
+                            }
+
+                            Tag::insert($tagVal);
+                        }
+
+                        $response = $this->responseSuccess($post);
+
+                    } catch (\Throwable $th) {
+                        $response = $this->responseError($th, 'error saat insert tag!');   
                     }
 
                     $response = $this->responseSuccess($post);
@@ -69,7 +94,7 @@ class PostController extends Controller
     {
         $imageName = time() . "image." . $req->file('image_cover')->getClientOriginalExtension();
         $path = $req->file('image_cover')->move(public_path("/img/cover"), $imageName);
-        $imageUrl = "img/cover/" . $imageName;
+        $imageUrl = "/img/cover/" . $imageName;
         
         $post = Post::create([
             'title' => $req->title,
@@ -78,18 +103,6 @@ class PostController extends Controller
         ]);
 
         return $post;
-    }
-    
-    public function getPosts($num)
-    {
-        $criteria = Post::paginate($num);
-        return new PostResource($criteria);
-    }
-
-    public function getPost($id)
-    {
-        $criteria = Post::where('id', $id)->get();
-        return new PostResource($criteria);
     }
 
     public function searchPost($title)

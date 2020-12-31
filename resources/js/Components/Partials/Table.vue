@@ -24,7 +24,15 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="emptyData">
+                    <tr>
+                        <td colspan="6" class="text-center font-bold">
+                            No posts found. You can add new post on the left
+                            side navigation bar.
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody v-else>
                     <tr v-for="(post, i) in formattedPosts" :key="i">
                         <td class="text-center">
                             {{ i + 1 }}
@@ -42,7 +50,12 @@
                         <td class="text-center">
                             <router-link
                                 class="text-blue-400 hover:text-blue-500 p-4"
-                                :to="'/editPost/' + post.id"
+                                :to="{
+                                    name: 'editPost',
+                                    params: {
+                                        id: post.id
+                                    }
+                                }"
                             >
                                 Edit
                             </router-link>
@@ -61,8 +74,9 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import moment from "moment";
+import isEmpty from "../Utils/isEmpty";
 
 export default {
     name: "Table",
@@ -82,17 +96,25 @@ export default {
             }));
 
             return posts;
+        },
+        emptyData() {
+            return isEmpty(this.posts);
         }
     },
     methods: {
         ...mapActions("posts", ["deletePost"]),
+        ...mapActions("general", ["toggleToast"]),
+        ...mapMutations("general", ["setMessages"]),
         onDelete(postId) {
             const confirm = window.confirm(
                 "Are you sure you want to delete it?"
             );
 
             if (confirm) {
-                this.deletePost();
+                this.deletePost(postId).then(() => {
+                    this.setMessages("Delete post success!");
+                    this.toggleToast();
+                });
             }
         }
     }

@@ -17,3 +17,8 @@
      object-fit: cover;
 }
 
+.post-detail .content img {
+  margin: 16px auto;
+  max-height: 300px;
+}
+

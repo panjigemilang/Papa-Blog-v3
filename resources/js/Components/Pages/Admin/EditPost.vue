@@ -1,12 +1,13 @@
 <template>
     <div class="min-h-screen w-full add-post">
-        <div class="container py-8">
+        <Loading v-if="loading" />
+        <div class="container py-8" v-else>
             <h1 class="heading text-center text-3xl font-black">
-                Add Post
+                Edit Post
             </h1>
             <form
                 class="py-8"
-                @submit.prevent="createPost"
+                @submit.prevent="edit"
                 enctype="multipart/form-data"
             >
                 <div class="flex flex-row flex-wrap my-8">
@@ -39,7 +40,6 @@
                             @change="onChangeImage"
                             v-if="uploadReady"
                             class="form-control"
-                            required
                         />
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                             class="fas fa-circle-notch fa-spin"
                             v-if="loading"
                         ></i>
-                        Add Post
+                        Edit Post
                     </button>
                 </div>
             </form>
@@ -92,9 +92,13 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 import isEmpty from "../../Utils/isEmpty";
+import Loading from "../../Utils/Loading";
 
 export default {
-    name: "Add_Post",
+    name: "Edit_Post",
+    components: {
+        Loading
+    },
     data() {
         return {
             title: "",
@@ -106,10 +110,10 @@ export default {
         };
     },
     computed: {
-        ...mapState("posts", ["loading", "errors"])
+        ...mapState("posts", ["loading", "errors", "post"])
     },
     methods: {
-        ...mapActions("posts", ["addPost"]),
+        ...mapActions("posts", ["editPost", "getPost"]),
         ...mapActions("general", ["toggleToast"]),
         ...mapMutations("services", ["setErrors"]),
         ...mapMutations("general", ["setMessages"]),
@@ -121,7 +125,7 @@ export default {
         deleteTag(index) {
             this.tags.splice(index, 1);
         },
-        createPost() {
+        edit() {
             // check condition of inserted file
             if (!isEmpty(this.image_cover)) {
                 if (!this.image_cover.type.includes("image")) {
@@ -137,24 +141,21 @@ export default {
             const content = this.content.replace(/data:image.+?(?=")/g, "");
 
             const data = new FormData();
+            data.append("id", this.$route.params.id);
             data.append("title", this.title);
             data.append("content", content);
             data.append("image_files", image_files);
             data.append("image_cover", this.image_cover);
             data.append("tags", this.tags);
 
-            this.addPost(data).then(() => {
+            this.editPost(data).then(() => {
                 if (isEmpty(this.errors)) {
-                    // emptying all the values
-                    this.title = "";
-                    this.content = "";
-                    this.tags = [];
                     this.uploadReady = false;
                     this.$nextTick(() => {
                         this.uploadReady = true;
                     });
 
-                    this.setMessages("Add post success!");
+                    this.setMessages("Edit post success!");
                     this.toggleToast();
                 }
             });
@@ -181,6 +182,16 @@ export default {
 
             this.image_cover = e.target.files[0];
         }
+    },
+    created() {
+        this.getPost(this.$route.params.id).then(() => {
+            this.title = this.post.data[0].title;
+            this.content = this.post.data[0].content;
+
+            if (!isEmpty(this.post.data[0].tags)) {
+                this.tags = this.post.data[0].tags.split(",");
+            }
+        });
     }
 };
 </script>

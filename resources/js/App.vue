@@ -2,7 +2,7 @@
     <div class="app min-h-screen">
         <Navbar />
         <div class="transition-all duration-300">
-            <router-view></router-view>
+            <router-view :key="$route.path"></router-view>
             <Toast />
             <Footer />
         </div>
@@ -219,7 +219,7 @@ input:not([type="date"]) {
     background: rgb(61, 164, 249);
     background: linear-gradient(
         180deg,
-        rgba(61, 164, 249, 0) 0%,
+        rgba(61, 164, 249, 0) -60%,
         rgba(0, 0, 0, 0.75) 100%
     );
     height: 100%;

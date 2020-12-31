@@ -3,19 +3,52 @@
         <h1 class="tracking-widest text-lg mb-4 font-black">
             TRENDING NOW
         </h1>
-        <div class="flex flex-row" v-for="(content, i) in contents" :key="i">
-            <a href="#">
+        <div
+            class="absolute top-full left-1/2 transform -translate-y-1/2 -translate-x-1/2"
+            v-if="loading"
+        >
+            <i class="text-5xl fas fa-circle-notch fa-spin"></i>
+        </div>
+        <div
+            class="flex flex-row mb-4"
+            v-for="(post, i) in filterData"
+            :key="i"
+            v-else
+        >
+            <router-link
+                :to="{
+                    name: 'Post',
+                    params: {
+                        id: post.id,
+                        title: post.title
+                            .toLowerCase()
+                            .replace(/\s|\+/g, '-')
+                            .replace(/:|&\s|,|;|\./g, '')
+                    }
+                }"
+            >
                 <img
-                    :src="content.image"
+                    :src="post.image_cover"
                     alt="Thumbnail"
-                    class="thumbnail object-cover rounded-lg"
+                    class="thumbnail object-cover rounded-lg shadow-lg"
                 />
-            </a>
+            </router-link>
             <h2 class="w-max px-4 py-2">
                 <strong>
-                    <a href="#">
-                        {{ content.title }}
-                    </a>
+                    <router-link
+                        :to="{
+                            name: 'Post',
+                            params: {
+                                id: post.id,
+                                title: post.title
+                                    .toLowerCase()
+                                    .replace(/\s|\+/g, '-')
+                                    .replace(/:|&\s|,|;|\./g, '')
+                            }
+                        }"
+                    >
+                        {{ post.title }}
+                    </router-link>
                 </strong>
             </h2>
         </div>
@@ -23,18 +56,20 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     name: "Trending_News",
-    data() {
-        return {
-            contents: [
-                {
-                    image: "http://via.placeholder.com/80x80.png",
-                    title:
-                        "Haru ga kite anna ni suki datta no ni, habe mo sora mo"
-                }
-            ]
-        };
+    computed: {
+        ...mapState("posts", ["posts", "loading"]),
+        filterData() {
+            return this.posts.data.data.filter(
+                item => item.id !== parseInt(this.$route.params.id)
+            );
+        }
+    },
+    created() {
+        console.log("Params", this.$route.params);
     }
 };
 </script>

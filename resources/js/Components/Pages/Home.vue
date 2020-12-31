@@ -3,9 +3,9 @@
         <Loading v-if="loading" />
         <div v-else>
             <NavTags />
-            <Featured :galleryContent="posts.data[0].data" />
+            <Featured :galleryContent="posts.data.data" />
             <div class="flex flex-row">
-                <News :newsContent="posts.data[0].data" />
+                <News :newsContent="posts.data.data" />
             </div>
             <div class="latest-post container mt-12">
                 <div class="heading mb-16 w-7/12">
