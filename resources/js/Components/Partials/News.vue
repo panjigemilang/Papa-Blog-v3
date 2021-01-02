@@ -84,7 +84,7 @@ export default {
     height: 280px;
 }
 
-div.news-content:nth-last-child(2) {
+div.news-content:nth-last-child(1) {
     border-bottom: 2px rgba(229, 231, 235, 1) solid;
 }
 </style>
