@@ -14,7 +14,7 @@ const state = {
 }
 
 const mutations = {
-  setError: (state, data) => {
+  setErrors: (state, data) => {
     state.errors = data
   },
   setIsAuthenticated: (state, data) => {
@@ -47,7 +47,7 @@ const actions = {
       })
       .catch((err) => {
         console.log("ERR", err);
-        commit("setError", err.response.data)
+        commit("setErrors", err.response.data)
       })
 
     state.loading = false
@@ -62,7 +62,7 @@ const actions = {
         commit("setUser", res.data.user)
       })
       .catch(err => {
-        commit("setError", err.response.data)
+        commit("setErrors", err.response.data)
       })
 
     state.loading = false
@@ -78,7 +78,7 @@ const actions = {
     commit("setUser", payload)
   },
   clearErrors({ commit }) {
-    commit("setError", {})
+    commit("setErrors", {})
   },
 }
 

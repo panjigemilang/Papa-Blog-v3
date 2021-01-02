@@ -1,8 +1,8 @@
 <template>
-    <div class="app min-h-screen bg-gray-900">
+    <div class="app min-h-screen">
         <Navbar />
         <div class="transition-all duration-300">
-            <router-view></router-view>
+            <router-view :key="$route.path"></router-view>
             <Toast />
             <Footer />
         </div>
@@ -67,7 +67,6 @@ export default {
 
 html,
 body {
-    color: whitesmoke;
     height: 100%;
     position: relative;
     width: 100%;
@@ -79,6 +78,7 @@ body {
     font-size: 92.5% !important;
     font-family: "Product Sans";
     margin: 0;
+    overflow-x: hidden;
     padding: 0;
 }
 
@@ -132,6 +132,10 @@ h1.title {
 
 #router-link {
     display: inline-block;
+}
+
+.title:hover {
+    color: $bg-primary;
 }
 
 .ml-22 {
@@ -209,5 +213,22 @@ input:not([type="date"]) {
     margin-right: auto;
     max-width: 90%;
     position: relative;
+}
+
+.border-1 {
+    border-width: 1px;
+}
+
+.overlay {
+    background: rgb(61, 164, 249);
+    background: linear-gradient(
+        180deg,
+        rgba(61, 164, 249, 0) -60%,
+        rgba(0, 0, 0, 0.75) 100%
+    );
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 </style>

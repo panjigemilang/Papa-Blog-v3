@@ -24,11 +24,13 @@
         "sass": "^1.20.1",
         "sass-loader": "^8.0.0",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
-        "vue": "^2.5.17",
-        "vue-template-compiler": "^2.6.10"
+        "vue": "^2.6.12",
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@chenfengyuan/vue-carousel": "^1.0.5",
         "jwt-decode": "^3.1.2",
+        "moment": "^2.29.1",
         "vue-fragment": "^1.5.1",
         "vue-router": "^3.4.9",
         "vue-wysiwyg": "^1.7.2",

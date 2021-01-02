@@ -1,62 +1,62 @@
 <template>
-    <div class="news md:w-7/12 mr-4">
+    <div class="news container">
         <div
-            class="rounded-lg flex flex-row border-gray-300 bg-gray-800 shadow-xl mb-8"
-            v-for="(content, index) in newsContent"
-            :key="index"
+            class="news-content flex flex-row py-16 border-t-2 border-gray-200"
+            v-for="(content, i) in newsContent"
+            :key="i"
         >
-            <a
-                class="w-4/12"
-                :href="
-                    'post/' +
-                        content.title.replace(' ', '-').toLowerCase() +
-                        '/' +
-                        content.id
-                "
+            <div class="content pr-28 pt-4 w-7/12">
+                <h1 class="font-black mb-4 tracking-wide md:text-4xl">
+                    <router-link
+                        class="transition-all duration-300 title"
+                        :to="{
+                            name: 'Post',
+                            params: {
+                                id: content.id,
+                                title: content.title
+                                    .toLowerCase()
+                                    .replace(/\s|\+/g, '-')
+                                    .replace(/:|&\s|,|;|\./g, '')
+                            }
+                        }"
+                    >
+                        {{ content.title }}
+                    </router-link>
+                </h1>
+                <p>
+                    {{
+                        content.content.length > maxChar
+                            ? shorten(
+                                  stripHtml(content.content),
+                                  maxChar
+                              ).concat(concateText)
+                            : stripHtml(content.content)
+                    }}
+                </p>
+            </div>
+            <router-link
+                class="w-5/12"
+                :to="{
+                    name: 'Post',
+                    params: {
+                        id: content.id,
+                        title: content.title
+                            .toLowerCase()
+                            .replace(/\s|\+/g, '-')
+                            .replace(/:|&\s|,|;|\./g, '')
+                    }
+                }"
             >
                 <img
                     :src="
-                        content.thumbnail
-                            ? content.thumbnail
-                            : 'https://via.placeholder.com/630x430.png'
+                        content.image_cover
+                            ? content.image_cover
+                            : 'img/cover/default.jpg'
                     "
                     alt="Image"
-                    class="rounded-lg object-cover mr-3 thumbnail w-full"
+                    class="rounded-lg object-cover thumbnail w-10/12 mx-auto"
                 />
-            </a>
-            <div class="content p-4 w-8/12">
-                <h1 class="font-black mb-4 text-xl">
-                    <a
-                        class="transition-all duration-300 title"
-                        :href="
-                            'post/' +
-                                content.title.replace(' ', '-').toLowerCase() +
-                                '/' +
-                                content.id
-                        "
-                    >
-                        {{ content.title }}
-                    </a>
-                </h1>
-                <div class="author">
-                    <div class="flex flex-row">
-                        <img
-                            src="https://via.placeholder.com/30x30.png"
-                            alt="Author"
-                            class="rounded-full author-image mr-2"
-                        />
-                        <div class="flex flex-col text-white">
-                            <p>
-                                <span class="opacity-70">
-                                    by
-                                </span>
-                                <span class="opacity-100">Panji Gemilang</span>
-                            </p>
-                            <small class="opacity-70">about 8 hours ago</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>
@@ -64,25 +64,27 @@
 <script>
 export default {
     name: "News-Content",
+    data() {
+        return {
+            concateText: " ...",
+            maxChar: 300
+        };
+    },
     props: {
-        newsContent: Array
+        newsContent: Array,
+        shorten: Function,
+        stripHtml: Function
     }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../../../sass/variables.scss";
-
-.author-image {
-    height: 40px;
-    width: 40px;
-}
-
 .thumbnail {
-    height: 164px;
+    box-shadow: 0px 9px 28px -8px rgba(0, 0, 0, 0.5);
+    height: 280px;
 }
 
-.content .title:hover {
-    color: $color-secondary;
+div.news-content:nth-last-child(2) {
+    border-bottom: 2px rgba(229, 231, 235, 1) solid;
 }
 </style>

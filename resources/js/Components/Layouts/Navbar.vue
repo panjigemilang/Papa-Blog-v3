@@ -9,7 +9,7 @@
                     class="w-full"
                     type="button"
                     v-if="isAuthenticated"
-                    @click.prevent="logout"
+                    @click.prevent="onLogout"
                 >
                     <div
                         class="bg-red-600 rounded-full h-14 w-14 flex items-center justify-center"
@@ -17,7 +17,12 @@
                         <i class="text-white fas fa-sign-in-alt"></i>
                     </div>
                 </button>
-                <button class="w-full" type="button" v-else>
+                <button
+                    class="w-full"
+                    @click="toggleNavbar"
+                    type="button"
+                    v-else
+                >
                     <router-link to="/login">
                         <div
                             class="bg-green-400 rounded-full h-14 w-14 flex items-center justify-center"
@@ -28,19 +33,26 @@
                 </button>
             </li>
             <li class="mb-4">
-                <button class="w-full" type="button" v-if="user.who == 'admin'">
-                    <router-link to="/admin">
+                <router-link to="/">
+                    <button class="w-full" @click="toggleNavbar" type="button">
                         <i class="text-white fas fa-home fa-primary"></i>
-                    </router-link>
-                </button>
-                <button class="w-full" type="button" v-else>
-                    <router-link to="/">
-                        <i class="text-white fas fa-home fa-primary"></i>
-                    </router-link>
-                </button>
+                    </button>
+                </router-link>
             </li>
             <li class="mb-4 mt-auto">
-                <button class="w-full" type="button" v-if="user.who == 'admin'">
+                <router-link to="/admin" v-if="user.who == 'admin'">
+                    <button class="w-full" @click="toggleNavbar" type="button">
+                        <i class="text-white fas fa-columns fa-primary"></i>
+                    </button>
+                </router-link>
+            </li>
+            <li class="mb-4">
+                <button
+                    class="w-full"
+                    @click="toggleNavbar"
+                    type="button"
+                    v-if="user.who == 'admin'"
+                >
                     <router-link to="/add">
                         <div
                             class="bg-green-600 rounded-full h-14 w-14 flex items-center justify-center"
@@ -94,6 +106,12 @@ export default {
         },
         addPost() {
             alert("add post");
+        },
+        onLogout() {
+            this.logout();
+            this.toggleNavbar();
+
+            this.$router.push("/");
         }
     }
 };
@@ -109,6 +127,7 @@ export default {
 
 nav {
     background-color: $color-primary-dark;
+    z-index: 99;
 
     button:hover {
         box-shadow: none;
@@ -120,10 +139,10 @@ nav {
     }
 
     .nav-btn {
-        background-color: $footer-left;
+        background-color: $bg-secondary;
 
         span {
-            background-color: $color-primary-dark;
+            background-color: #fff;
         }
 
         &.show {

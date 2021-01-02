@@ -2,7 +2,14 @@ const namespaced = true
 
 const state = {
   navbar: false,
-  toast: false
+  toast: false,
+  messages: ""
+}
+
+const mutations = {
+  setMessages: (state, data) => {
+    state.messages = data
+  }
 }
 
 const actions = {
@@ -24,5 +31,6 @@ const actions = {
 export default {
   namespaced,
   state,
+  mutations,
   actions
 }

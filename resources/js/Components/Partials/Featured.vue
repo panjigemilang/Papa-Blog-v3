@@ -1,32 +1,19 @@
 <template>
-    <div class="featured grid md:grid-cols-12 md:grid-rows-2 mb-8">
-        <a
-            href="#"
-            class="relative border-1 border-gray-500 overflow-hidden"
-            v-for="(gallery, index) in galleryContent"
-            :key="index"
-            :class="
-                index == 0
-                    ? 'main col-span-6 row-span-2'
-                    : 'col-span-3 row-span-1'
-            "
-        >
-            <img
-                :src="gallery.image"
-                alt="Featured"
-                class="object-cover w-full h-full"
-                :class="index == galleryContent.length - 1 ? 'object-top' : ''"
-            />
-            <div
-                class="img-overlay absolute w-full h-full top-0 opacity-60"
-            ></div>
-            <p
-                class="absolute bottom-0 left-0 tracking-wider"
-                :class="index == 0 ? 'py-5 px-8 text-2xl' : 'py-4 px-5'"
-            >
-                <strong>{{ gallery.title }}</strong>
-            </p>
-        </a>
+    <div class="featured min-h-screen mb-8">
+        <div class="min-h-screen flex flex-row relative">
+            <carousel
+                class="md:w-6/12 md:pl-40 md:pt-32"
+                :autoplay="true"
+                :data="items"
+                :controls="false"
+            ></carousel>
+            <div class="cover-image md:w-6/12 relative">
+                <img
+                    src="img/assets/home.jpg"
+                    class="absolute transform -translate-y-2/4 -right-40 top-80"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -34,26 +21,45 @@
 export default {
     name: "Featured-News",
     props: {
-        galleryContent: Array
+        galleryContent: Array,
+        shorten: Function,
+        stripHtml: Function
+    },
+    data() {
+        const items = [];
+        const maxChar = 100;
+        const concateText = " ...";
+
+        this.galleryContent.map((item, i) =>
+            items.push(`
+                <div class="flex flex-col">
+                    <p class="mb-6">Tag</p>
+                    <h1 class="font-bold text-5xl mb-6">
+                        <router-link
+                            class="transition-all duration-300 title"
+                            to="/post/${item.title
+                                .toLowerCase()
+                                .replace(/\s|\+/g, "-")
+                                .replace(/:|&\s|,|;|\./g, "")}/${item.id}"
+                        >
+                            ${item.title}
+                        </router-link>
+                    </h1>
+                    <p class="text-lg mb-6">${
+                        item.content.length > maxChar
+                            ? this.shorten(
+                                  this.stripHtml(item.content),
+                                  maxChar
+                              ).concat(concateText)
+                            : this.stripHtml(item.content)
+                    }</p>
+                </div>
+            `)
+        );
+
+        return {
+            items
+        };
     }
 };
 </script>
-
-<style scoped>
-.featured {
-    max-height: 500px;
-}
-
-.img-overlay {
-    background: rgb(61, 164, 249);
-    background: linear-gradient(
-        180deg,
-        rgba(61, 164, 249, 0) 0%,
-        rgba(0, 0, 0, 1) 100%
-    );
-}
-
-.border-1 {
-    border-width: 1px;
-}
-</style>

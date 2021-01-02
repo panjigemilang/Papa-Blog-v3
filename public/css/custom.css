@@ -1,0 +1,52 @@
+.featured .carousel .carousel__indicators {
+  top: 57%;
+  left: 28%;
+  bottom: unset;
+}
+
+.featured .carousel .carousel__indicator:before {
+  background-color: #2062d4;
+  border-radius: 50%;
+  height: 0.7rem;
+  width: 0.7rem;
+}
+
+.add-post .content img {
+  max-height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.post-detail .content iframe {
+  max-height: 415px;
+  width: 100%;
+}
+
+.post-detail .content img {
+  margin: 16px auto;
+  max-height: 300px;
+}
+
+.post-detail .content p,
+.post-detail .content div {
+  margin-bottom: 15px;
+}
+
+.post-detail .content h1,
+.post-detail .content h2,
+.post-detail .content h3,
+.post-detail .content h4,
+.post-detail .content h5,
+.post-detail .content h6,
+.post-detail .content p {
+  line-height: 1.85;
+}
+
+.post-detail .content a {
+  color: #f30418;
+}
+
+.post-detail .content a:hover {
+  color: #b80000;
+}
+

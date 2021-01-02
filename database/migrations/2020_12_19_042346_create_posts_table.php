@@ -17,6 +17,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('admin_id');
             $table->text('title')->nullable();
+            $table->text('image_cover')->nullable();
             $table->text('content')->nullable();
             $table->timestamps();
             $table->foreign('admin_id')->references('id')->on('admin')->onUpdate('cascade')
