@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post\Pictures;
 use App\Picture;
 use App\Post;
+use App\Models\Post\PostTag;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -47,16 +48,23 @@ class AdminController extends Controller
                 'title' => $request->title,
                 'content' => $request->content,
                 'image_cover' => $imageUrl,
+                'admin_id' => 1,
             ]);
 
             if ($post) {
                 if (!is_null($request->tags)) {
-                    Tag::create([
+                    $tag = Tag::create([
                         'post_id' => $post->id,
                         'tags' => $request->tags
                     ]);
+                    if ($tag) {
+                        PostTag::create([
+                            'post_id' => $post->id,
+                            'tag_id' => $tag->id,
+                        ]);
+                    }
                 }
-                
+
                 $status = "success";
                 $message = "post added successfully";
                 $data = $post->toArray();
@@ -97,7 +105,7 @@ class AdminController extends Controller
         } else {
             $post = Post::find($id);
             $pictures = Picture::where('post_id', $id)->get();
-            
+
             if (!is_null($post)) {
                 if ($request->image_files != 'null') {
                     // TODO: upload image files from content
@@ -115,21 +123,20 @@ class AdminController extends Controller
                         // convert string to array
                         $image_files = preg_split('@(?=,data:),@', $request->image_files);
 
-                        foreach ($image_files as $image) { 
+                        foreach ($image_files as $image) {
                             // extract the extension from base64
                             $extension = explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
-            
-                            $filename = time(). '.' . $extension;
+
+                            $filename = time() . '.' . $extension;
                             // upload to public folder
-                            \Image::make($image)->save(public_path($folder).$filename);
+                            \Image::make($image)->save(public_path($folder) . $filename);
 
                             Pictures::create([
                                 'post_id' => $post->id,
                                 'img_path' => $folder . $filename
                             ]);
                         }
-                        
-                    } catch (\Throwable $th) {                    
+                    } catch (\Throwable $th) {
                         $message = "Error when uploading image!";
                         $code = 404;
                     }
@@ -141,28 +148,27 @@ class AdminController extends Controller
                         // convert string to array
                         $tags = explode(' ', $request->tags);
                         $tagVal = array();
-                        
+
                         $tagVal['post_id'] = $id;
                         $tagVal['tags'] = $request->tags;
                         $tagVal['updated_at'] = date('Y-m-d H:i:s');
-                        
+
                         // Check if tag exists, if not then create new column for created_at
                         $tag = Tag::where('post_id', $id)->get();
 
                         if (is_null($tag)) {
                             $tagVal['created_at'] = date('Y-m-d H:i:s');
                         }
-                        
+
                         $cond = ['post_id' => $id];
                         Tag::updateOrCreate($cond, $tagVal);
                     }
-
                 } catch (\Throwable $th) {
                     $message = "Error when inserting tag";
                     $code = 404;
                 }
 
-                
+
                 // TODO: upload image cover 
                 if (!is_null($request->file('image_cover'))) {
                     // delete existing image cover
@@ -171,7 +177,7 @@ class AdminController extends Controller
                     $imageName = time() . "image." . $request->file('image_cover')->getClientOriginalExtension();
                     $path = $request->file('image_cover')->move(public_path("/img/cover"), $imageName);
                     $imageUrl = "/img/cover/" . $imageName;
-    
+
                     $post->image_cover = $imageUrl;
                 }
 
