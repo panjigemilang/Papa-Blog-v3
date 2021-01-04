@@ -19,6 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/jajal/{id}', 'Post\PostController@jajal');
+
 // For Admin
 Route::post('/users/login', 'Auth\AuthController@login');
 Route::post('/post', 'AdminController@createPost');
@@ -26,9 +28,9 @@ Route::post('/post/{id}', 'AdminController@editPost');
 Route::post('/posts/addPost', 'Post\PostController@addPost');
 Route::delete('/post/{id}', 'AdminController@deletePost');
 
-
 // For Posts
 Route::get('posts/{num}', 'PostController@getPosts');
+Route::get('tags/{num}', 'Post\TagController@getTags');
 Route::get('post/{id}', 'PostController@getPost');
 Route::get('post/title/{title}', 'PostController@searchPost');
 Route::get('post/tags/{tags}', 'PostController@searchPostByTag');

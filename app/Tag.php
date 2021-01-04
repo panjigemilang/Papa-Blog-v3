@@ -11,5 +11,11 @@ class Tag extends Model
      *
      * @var array
      */
-    protected $fillable = ['post_id', 'tags', 'created_at', 'updated_at'];
+    protected $table = "tags";
+    protected $fillable = ['tags', 'created_at', 'updated_at'];
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'post_tags');
+    }
 }

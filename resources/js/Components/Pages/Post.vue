@@ -23,12 +23,16 @@
                     <Trending />
                 </div>
             </div>
+            <div class="container">
+                <NewsCard :shorten="shorten" :newsContent="excludePost" />
+            </div>
         </fragment>
     </div>
 </template>
 
 <script>
 import Trending from "../Partials/Trending";
+import NewsCard from "../Partials/NewsCard";
 import Loading from "../Utils/Loading";
 import isEmpty from "../Utils/isEmpty";
 import { Fragment } from "vue-fragment";
@@ -38,11 +42,12 @@ export default {
     name: "Post_Detail",
     components: {
         Trending,
+        NewsCard,
         Fragment,
         Loading
     },
     computed: {
-        ...mapState("posts", ["loading", "post"]),
+        ...mapState("posts", ["loading", "post", "posts"]),
         content() {
             let content = this.post.data[0].content;
 
@@ -64,10 +69,24 @@ export default {
 
                 return content;
             }
+        },
+        excludePost() {
+            const posts = this.posts.data.data.filter(
+                item => item.id != this.$route.params.id
+            );
+
+            console.log("Posts, Route", posts, this.$route);
+
+            return posts;
         }
     },
     methods: {
-        ...mapActions("posts", ["getAllPosts"])
+        ...mapActions("posts", ["getAllPosts"]),
+        shorten(str, maxLen, separator = " ") {
+            if (str.length <= maxLen) return str;
+
+            return str.substr(0, str.lastIndexOf(separator, maxLen));
+        }
     },
     created() {
         const data = {

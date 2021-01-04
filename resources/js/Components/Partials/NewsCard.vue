@@ -24,10 +24,10 @@
                         class="w-full h-72 object-cover"
                     />
                 </router-link>
-                <div class="content pt-4 pb-6 px-8">
+                <div class="pt-4 pb-6 px-8">
                     <div class="sub flex flex-row mb-4">
                         <img
-                            src="img/assets/icons/ic_date_range_24px.svg"
+                            src="/img/assets/icons/ic_date_range_24px.svg"
                             class="icon mr-2"
                         />
                         <p>
@@ -35,7 +35,7 @@
                         </p>
                         <div class="author ml-auto">
                             <i class="fas fa-user mr-2"></i>
-                            Admin
+                            {{ post.admin.name }}
                         </div>
                     </div>
                     <h1

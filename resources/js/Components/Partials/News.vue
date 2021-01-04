@@ -2,10 +2,10 @@
     <div class="news container">
         <div
             class="news-content flex flex-row py-16 border-t-2 border-gray-200"
-            v-for="(content, i) in newsContent"
+            v-for="(content, i) in formattedPosts"
             :key="i"
         >
-            <div class="content pr-28 pt-4 w-7/12">
+            <div class="content relative pr-28 pt-4 w-7/12">
                 <h1 class="font-black mb-4 tracking-wide md:text-4xl">
                     <router-link
                         class="transition-all duration-300 title"
@@ -33,6 +33,15 @@
                             : stripHtml(content.content)
                     }}
                 </p>
+                <small
+                    class="absolute -bottom-8 right-20 text-base flex flex-row"
+                >
+                    <img
+                        src="img/assets/icons/ic_date_range_24px.svg"
+                        class="icon mr-2"
+                    />
+                    {{ content.created_at }}
+                </small>
             </div>
             <router-link
                 class="w-5/12"
@@ -62,6 +71,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
     name: "News-Content",
     data() {
@@ -74,6 +85,17 @@ export default {
         newsContent: Array,
         shorten: Function,
         stripHtml: Function
+    },
+    computed: {
+        formattedPosts() {
+            const posts = this.newsContent.map(item => ({
+                ...item,
+                created_at: new moment(item.created_at).format("DD-MMM-YYYY"),
+                updated_at: new moment(item.updated_at).format("DD-MMM-YYYY")
+            }));
+
+            return posts;
+        }
     }
 };
 </script>

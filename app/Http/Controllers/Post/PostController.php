@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 // Models
-use App\Models\Post\Post;
+use App\Post;
 use App\Models\Post\Pictures;
 use App\Tag;
+use App\Models\Post\PostTag;
 
 class PostController extends Controller
 {
@@ -45,19 +46,32 @@ class PostController extends Controller
                     try {
                         if ($req->tags != 'null') {
                             // convert string to array
-                            $tags = explode(' ', $req->tags);
-                            $tagVal = array();
-                            $i = 0;
+                            $tags = explode(',', $req->tags);
+
+                            var_dump($tags);
 
                             foreach ($tags as $tag) { 
-                                $tagVal[$i]['post_id'] = $post->id;
-                                $tagVal[$i]['tags'] = $tag;
-                                $tagVal[$i]['created_at'] = date('Y-m-d H:i:s');
-                                $tagVal[$i]['updated_at'] = date('Y-m-d H:i:s');
-                                $i++;
-                            }
+                                // search for the text, if exists then add the tag id
+                                $temp = Tag::firstWhere('tags', $tag);
 
-                            Tag::insert($tagVal);
+                                if ($temp) {
+                                    PostTag::create([
+                                        'post_id' => $post->id,
+                                        'tag_id' => $temp->id
+                                    ]);
+                                } else {
+                                    $tagVal = Tag::create([
+                                        'tags' => $tag
+                                    ]);
+    
+                                    if ($tagVal) {
+                                        PostTag::create([
+                                            'post_id' => $post->id,
+                                            'tag_id' => $tagVal->id
+                                        ]);
+                                    }
+                                }
+                            }
                         }
 
                         $response = $this->responseSuccess($post);
@@ -80,6 +94,36 @@ class PostController extends Controller
             try {
                 $post = $this->postCreate($req);
 
+                if ($req->tags != 'null') {
+                    // convert string to array
+                    $tags = explode(',', $req->tags);
+
+                    var_dump($tags);
+
+                    foreach ($tags as $tag) { 
+                        // search for the text, if exists then add the tag id
+                        $temp = Tag::firstWhere('tags', $tag);
+
+                        if ($temp) {
+                            PostTag::create([
+                                'post_id' => $post->id,
+                                'tag_id' => $temp->id
+                            ]);
+                        } else {
+                            $tagVal = Tag::create([
+                                'tags' => $tag
+                            ]);
+
+                            if ($tagVal) {
+                                PostTag::create([
+                                    'post_id' => $post->id,
+                                    'tag_id' => $tagVal->id
+                                ]);
+                            }
+                        }
+                    }
+                }
+
                 $response = $this->responseSuccess($post);
 
             } catch (\Throwable $th) {
@@ -87,6 +131,17 @@ class PostController extends Controller
             }
         }
         
+        return $response;
+    }
+
+    public function jajal(Request $req, $id)
+    {
+        $post = Tag::all();
+        // $post = Post::with('tags')->paginate($num);
+        // $post = PostTag::with('posts')->where('post_id', '=', $id)->get();
+
+        $response = $this->responseSuccess($post);
+
         return $response;
     }
 

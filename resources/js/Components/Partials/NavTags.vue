@@ -1,46 +1,39 @@
 <template>
     <div class="container flex flex-row w-full text-center">
-        <a class="md:w-1/5 my-8" href="#">
+        <router-link
+            class="md:w-1/5 my-8"
+            v-for="(item, i) in tags.data"
+            :key="'tag-' + i"
+            :to="{
+                name: 'Tags',
+                params: {
+                    tag: item
+                }
+            }"
+        >
             <h3
                 class="text-xl font-black transition-colors text-green-500 hover:text-green-600"
             >
-                Technology
+                {{ item.tags }}
             </h3>
-        </a>
-        <a class="md:w-1/5 my-8" href="#">
-            <h3
-                class="text-xl font-black transition-colors text-green-500 hover:text-green-600"
-            >
-                Comedy
-            </h3>
-        </a>
-        <a class="md:w-1/5 my-8" href="#">
-            <h3
-                class="text-xl font-black transition-colors text-green-500 hover:text-green-600"
-            >
-                Entertainment
-            </h3>
-        </a>
-        <a class="md:w-1/5 my-8" href="#">
-            <h3
-                class="text-xl font-black transition-colors text-green-500 hover:text-green-600"
-            >
-                Light Novel
-            </h3>
-        </a>
-        <a class="md:w-1/5 my-8" href="#">
-            <h3
-                class="text-xl font-black transition-colors text-green-500 hover:text-green-600"
-            >
-                Wattpad
-            </h3>
-        </a>
+        </router-link>
     </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
 export default {
-    name: "Navigation_Tags"
+    name: "Navigation_Tags",
+    computed: {
+        ...mapState("tags", ["tags"])
+    },
+    methods: {
+        ...mapActions("tags", ["getTags"])
+    },
+    created() {
+        this.getTags();
+    }
 };
 </script>
 

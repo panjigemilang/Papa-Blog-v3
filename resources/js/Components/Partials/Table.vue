@@ -59,7 +59,7 @@
                                 <img
                                     :src="post.image_cover"
                                     alt="Cover"
-                                    class="object-cover"
+                                    class="object-cover max-h-60 mx-auto"
                                 />
                             </div>
                         </td>
@@ -116,6 +116,20 @@ export default {
                     "hh:mm A DD-MMM-YYYY"
                 )
             }));
+
+            let temp = 0;
+
+            const result = posts.filter(item => {
+                console.log("TEMP : ITEM.id", temp, item.id);
+
+                if (temp != item.id) {
+                    temp = item.id;
+
+                    return item;
+                }
+            });
+
+            console.log("Result", result);
 
             return posts;
         },

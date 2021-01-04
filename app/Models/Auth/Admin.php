@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Post;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -30,5 +31,10 @@ class Admin extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }

@@ -40,6 +40,11 @@
                 </router-link>
             </li>
             <li class="mb-4 mt-auto">
+                <button class="w-full" @click="onSearch" type="button">
+                    <i class="text-white fas fa-search fa-primary"></i>
+                </button>
+            </li>
+            <li class="mb-4">
                 <router-link to="/admin" v-if="user.who == 'admin'">
                     <button class="w-full" @click="toggleNavbar" type="button">
                         <i class="text-white fas fa-columns fa-primary"></i>
@@ -100,12 +105,16 @@ export default {
     },
     methods: {
         ...mapActions("services", ["logout"]),
-        ...mapActions("general", ["toggleNavbar"]),
+        ...mapActions("general", ["toggleNavbar", "toggleSearch"]),
         checkEmpty(val) {
             return isEmpty(val);
         },
         addPost() {
             alert("add post");
+        },
+        onSearch() {
+            this.toggleNavbar();
+            this.toggleSearch();
         },
         onLogout() {
             this.logout();
@@ -127,7 +136,7 @@ export default {
 
 nav {
     background-color: $color-primary-dark;
-    z-index: 99;
+    z-index: 49;
 
     button:hover {
         box-shadow: none;

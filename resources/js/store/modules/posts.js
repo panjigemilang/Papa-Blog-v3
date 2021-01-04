@@ -38,7 +38,7 @@ const actions = {
       })
       .catch(err => {
         console.log("Err", err);
-        commit("setErrors", err.response.data)
+        commit("setErrors", err)
       })
 
     commit("setLoading")

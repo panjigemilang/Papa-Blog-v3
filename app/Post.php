@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Models\Auth\Admin;
+use App\Models\Post\Pictures;
+use App\Models\Post\PostTag;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -11,9 +14,20 @@ class Post extends Model
      *
      * @var array
      */
-<<<<<<< HEAD
     protected $fillable = ['admin_id', 'title', 'content', 'image_cover'];
-=======
-    protected $fillable = ['title', 'content', 'image_cover', 'admin_id'];
->>>>>>> ead2849bc064ab5d709927f1cd82bf645d6e18e4
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
+    public function pictures()
+    {
+        return $this->hasMany(Pictures::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tags');
+    }
 }

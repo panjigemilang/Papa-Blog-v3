@@ -3,6 +3,7 @@
         <Navbar />
         <div class="transition-all duration-300">
             <router-view :key="$route.path"></router-view>
+            <Search />
             <Toast />
             <Footer />
         </div>
@@ -12,6 +13,7 @@
 <script>
 import Navbar from "./Components/Layouts/Navbar";
 import Footer from "./Components/Layouts/Footer";
+import Search from "./Components/Utils/Search";
 import Toast from "./Components/Utils/Toast";
 import setAuthToken from "./Components/Utils/setAuthToken";
 import { mapActions, mapState } from "vuex";
@@ -23,6 +25,7 @@ export default {
     components: {
         Navbar,
         Footer,
+        Search,
         Toast
     },
     computed: {

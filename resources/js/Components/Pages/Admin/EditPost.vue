@@ -195,7 +195,7 @@ export default {
             this.content = this.post.data[0].content;
 
             if (!isEmpty(this.post.data[0].tags)) {
-                this.tags = this.post.data[0].tags.split(",");
+                this.post.data[0].tags.map(item => this.tags.push(item.tags));
             }
 
             this.componentLoading = false;

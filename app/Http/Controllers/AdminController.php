@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post\Pictures;
+use App\Models\Post\PostTag;
 use App\Picture;
 use App\Post;
-use App\Models\Post\PostTag;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,74 +13,6 @@ use Illuminate\Support\Facades\URL;
 
 class AdminController extends Controller
 {
-    public function createPost(Request $request)
-    {
-        $status = "error";
-        $data = [];
-        $code = 403;
-        $message = [];
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-            'content' => 'required',
-            'image_cover' => 'required|mimes:jpg,jpeg,png'
-        ]);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            foreach ($errors->get('title') as $msg) {
-                $message['title'] = $msg;
-            }
-
-            foreach ($errors->get('content') as $msg) {
-                $message['content'] = $msg;
-            }
-
-            foreach ($errors->get('image_cover') as $msg) {
-                $message['image_cover'] = $msg;
-            }
-        } else {
-            $imageName = time() . "image." . $request->file('image_cover')->getClientOriginalExtension();
-            $path = $request->file('image_cover')->move(public_path("/img/cover"), $imageName);
-            $imageUrl = "/img/cover/" . $imageName;
-
-            $post = Post::create([
-                'title' => $request->title,
-                'content' => $request->content,
-                'image_cover' => $imageUrl,
-                'admin_id' => 1,
-            ]);
-
-            if ($post) {
-                if (!is_null($request->tags)) {
-                    $tag = Tag::create([
-                        'post_id' => $post->id,
-                        'tags' => $request->tags
-                    ]);
-                    if ($tag) {
-                        PostTag::create([
-                            'post_id' => $post->id,
-                            'tag_id' => $tag->id,
-                        ]);
-                    }
-                }
-
-                $status = "success";
-                $message = "post added successfully";
-                $data = $post->toArray();
-                $code = 201;
-            } else {
-                $message['error'] = 'post failed to add';
-            }
-        }
-
-        return response()->json([
-            'status' => $status,
-            'message' => $message,
-            'data' => $data
-        ], $code);
-    }
-
     public function editPost(Request $request, $id)
     {
         $status = "error";
@@ -105,6 +37,7 @@ class AdminController extends Controller
         } else {
             $post = Post::find($id);
             $pictures = Picture::where('post_id', $id)->get();
+            $post_tags = PostTag::where('post_id', $id)->get();
 
             if (!is_null($post)) {
                 if ($request->image_files != 'null') {
@@ -145,29 +78,42 @@ class AdminController extends Controller
                 // TODO: edit tags
                 try {
                     if ($request->tags != 'null') {
+                        // Deleting all the exists tags
+                        foreach ($post_tags as $post_tag) {
+                            $post_tag->delete();
+                        }                        
                         // convert string to array
-                        $tags = explode(' ', $request->tags);
-                        $tagVal = array();
+                        $tags = explode(',', $request->tags);
 
-                        $tagVal['post_id'] = $id;
-                        $tagVal['tags'] = $request->tags;
-                        $tagVal['updated_at'] = date('Y-m-d H:i:s');
+                        var_dump($tags);
 
-                        // Check if tag exists, if not then create new column for created_at
-                        $tag = Tag::where('post_id', $id)->get();
+                        foreach ($tags as $tag) { 
+                            // search for the text, if exists then add the tag id
+                            $temp = Tag::firstWhere('tags', $tag);
 
-                        if (is_null($tag)) {
-                            $tagVal['created_at'] = date('Y-m-d H:i:s');
+                            if ($temp) {
+                                PostTag::create([
+                                    'post_id' => $post->id,
+                                    'tag_id' => $temp->id
+                                ]);
+                            } else {
+                                $tagVal = Tag::create([
+                                    'tags' => $tag
+                                ]);
+
+                                if ($tagVal) {
+                                    PostTag::create([
+                                        'post_id' => $post->id,
+                                        'tag_id' => $tagVal->id
+                                    ]);
+                                }
+                            }
                         }
-
-                        $cond = ['post_id' => $id];
-                        Tag::updateOrCreate($cond, $tagVal);
                     }
                 } catch (\Throwable $th) {
                     $message = "Error when inserting tag";
                     $code = 404;
                 }
-
 
                 // TODO: upload image cover 
                 if (!is_null($request->file('image_cover'))) {

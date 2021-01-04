@@ -67,9 +67,6 @@ export default {
                 item => item.id !== parseInt(this.$route.params.id)
             );
         }
-    },
-    created() {
-        console.log("Params", this.$route.params);
     }
 };
 </script>

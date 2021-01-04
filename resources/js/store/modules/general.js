@@ -3,6 +3,7 @@ const namespaced = true
 const state = {
   navbar: false,
   toast: false,
+  search: false,
   messages: ""
 }
 
@@ -25,6 +26,9 @@ const actions = {
         state.toast = false
       }, 3000);
     }
+  },
+  toggleSearch({ commit, state }) {
+    state.search = !state.search
   }
 }
 

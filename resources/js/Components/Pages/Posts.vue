@@ -19,6 +19,7 @@
                     <li
                         class="text-center cursor-pointer h-12 w-max mx-2 py-2 px-4 text-base list-none hover:text-gray-500 leading-8"
                         v-if="posts.data.current_page != 1"
+                        @click="getPage('prev')"
                     >
                         <i class="fas fa-chevron-left"></i>
                     </li>
@@ -31,6 +32,7 @@
                     <li
                         class="text-center cursor-pointer h-12 w-max mx-2 py-2 px-4 text-base rounded shadow-md list-none hover:bg-gray-100 leading-8"
                         :class="posts.data.current_page == page ? 'active' : ''"
+                        @click="getPage(page)"
                     >
                         {{ page }}
                     </li>
@@ -41,6 +43,7 @@
                     <li
                         class="text-center cursor-pointer h-12 w-max mx-2 py-2 px-4 text-base list-none hover:text-gray-500 leading-8"
                         v-if="posts.data.current_page != posts.data.last_page"
+                        @click="getPage('next')"
                     >
                         <i class="fas fa-chevron-right"></i>
                     </li>
@@ -60,7 +63,7 @@ export default {
     name: "Posts_Lists",
     data() {
         return {
-            limit: 3,
+            limit: 5,
             pageNumber: [],
             firstLoad: false
         };
@@ -75,6 +78,20 @@ export default {
     },
     methods: {
         ...mapActions("posts", ["getPosts"]),
+        getPage(num) {
+            let query;
+
+            if (typeof num == "number") {
+                query = `${this.limit}?page=${num}`;
+            } else {
+                const addition = num == "prev" ? -1 : 1;
+
+                query = `${this.limit}?page=${this.posts.data.current_page +
+                    addition}`;
+            }
+
+            this.getPosts(query);
+        },
         shorten(str, maxLen, separator = " ") {
             if (str.length <= maxLen) return str;
 
@@ -123,8 +140,8 @@ export default {
         console.log("Route", this.$route);
         this.firstLoad = true;
 
-        const page = this.$route.query.page ? this.$route.query.page : 0;
         let query;
+        const page = this.$route.query.page ? this.$route.query.page : 0;
 
         if (page) {
             query = `${this.limit}?page=${this.$route.query.page}`;
