@@ -30,8 +30,8 @@ Route::delete('/post/{id}', 'AdminController@deletePost');
 // For Posts
 Route::get('posts/{num}', 'PostController@getPosts');
 Route::get('post/{id}', 'PostController@getPost');
-Route::get('post/title/{title}', 'PostController@searchPost');
-Route::get('post/tags/{tags}', 'PostController@searchPostByTag');
+Route::get('post/title/{title}/{num}', 'PostController@searchPost');
+Route::get('post/tags/{tags}/{num}', 'PostController@searchPostByTag');
 
 // For User
 Route::post('/like/post/{id}', 'UserController@likePost');
