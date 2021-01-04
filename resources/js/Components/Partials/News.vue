@@ -1,9 +1,13 @@
 <template>
     <div class="news container">
+        <div v-if="emptyNews">
+            <h1 class="text-4xl p-4">No Post Found.</h1>
+        </div>
         <div
             class="news-content flex flex-row py-16 border-t-2 border-gray-200"
             v-for="(content, i) in formattedPosts"
             :key="i"
+            v-else
         >
             <div class="content relative pr-28 pt-4 w-7/12">
                 <h1 class="font-black mb-4 tracking-wide md:text-4xl">
@@ -72,6 +76,7 @@
 
 <script>
 import moment from "moment";
+import isEmpty from "../Utils/isEmpty";
 
 export default {
     name: "News-Content",
@@ -95,6 +100,9 @@ export default {
             }));
 
             return posts;
+        },
+        emptyNews() {
+            return isEmpty(this.newsContent);
         }
     }
 };

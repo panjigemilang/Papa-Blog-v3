@@ -9,10 +9,16 @@
             <News
                 :stripHtml="stripHtml"
                 :shorten="shorten"
-                :newsContent="posts.data.data"
+                :newsContent="
+                    type == 'posts' ? posts.data.data : posts.data.data[0].posts
+                "
                 v-else
             />
-            <div class="pagination flex flex-row flex-wrap justify-center mt-6">
+            <div v-if="emptyNews"></div>
+            <div
+                class="pagination flex flex-row flex-wrap justify-center mt-6"
+                v-else
+            >
                 <router-link
                     :to="'/posts?page=' + (posts.data.current_page - 1)"
                 >
@@ -58,14 +64,23 @@ import NavTags from "../Partials/NavTags";
 import News from "../Partials/News";
 import Loading from "../Utils/Loading";
 import { mapActions, mapState } from "vuex";
+import isEmpty from "../Utils/isEmpty";
 
 export default {
     name: "Posts_Lists",
     data() {
+        const title = this.$route.query.title
+            ? this.$route.query.title.replace(/-/g, " ")
+            : "";
+
+        const tag = this.$route.query.tag ? this.$route.query.tag : "";
+
         return {
             limit: 5,
-            pageNumber: [],
-            firstLoad: false
+            firstLoad: false,
+            title,
+            tag,
+            type: "posts"
         };
     },
     components: {
@@ -74,23 +89,43 @@ export default {
         News
     },
     computed: {
-        ...mapState("posts", ["loading", "posts"])
+        ...mapState("posts", ["loading", "posts"]),
+        emptyNews() {
+            return isEmpty(this.posts.data.data);
+        },
+        pageNumber() {
+            const pageNumber = this.getPagingRange(
+                parseInt(this.posts.data.current_page),
+                {
+                    total: this.getTotalPage(this.posts.data.total, this.limit),
+                    length: this.limit
+                }
+            );
+
+            return pageNumber;
+        }
     },
     methods: {
-        ...mapActions("posts", ["getPosts"]),
+        ...mapActions("posts", ["getPosts", "searchPost", "searchPostByTag"]),
         getPage(num) {
             let query;
 
-            if (typeof num == "number") {
-                query = `${this.limit}?page=${num}`;
+            if (this.title) {
+                query = `${this.title}/${this.limit}?page=${num}`;
+
+                this.searchPost(query);
             } else {
-                const addition = num == "prev" ? -1 : 1;
+                if (typeof num == "number") {
+                    query = `${this.limit}?page=${num}`;
+                } else {
+                    const addition = num == "prev" ? -1 : 1;
 
-                query = `${this.limit}?page=${this.posts.data.current_page +
-                    addition}`;
+                    query = `${this.limit}?page=${this.posts.data.current_page +
+                        addition}`;
+                }
+
+                this.getPosts(query);
             }
-
-            this.getPosts(query);
         },
         shorten(str, maxLen, separator = " ") {
             if (str.length <= maxLen) return str;
@@ -134,31 +169,75 @@ export default {
             }
 
             return pageNumber.length;
+        },
+        setType() {
+            if (this.posts.message.includes("tags")) {
+                this.type = "tags";
+            }
+
+            this.firstLoad = false;
+        }
+    },
+    watch: {
+        "$route.query.title": function(title) {
+            let query;
+            const page = this.$route.query.page ? this.$route.query.page : 0;
+
+            if (page) {
+                query = `${title}/${this.limit}?page=${page}`;
+            } else {
+                query = `${title}/${this.limit}`;
+            }
+
+            this.searchPost(query);
+        },
+        "$route.query.tag": function(tag) {
+            let query;
+            const page = this.$route.query.page ? this.$route.query.page : 0;
+
+            if (page) {
+                query = `${tag}/${this.limit}?page=${page}`;
+            } else {
+                query = `${tag}/${this.limit}`;
+            }
+
+            this.searchPostByTag(query);
         }
     },
     created() {
-        console.log("Route", this.$route);
         this.firstLoad = true;
 
         let query;
         const page = this.$route.query.page ? this.$route.query.page : 0;
 
         if (page) {
-            query = `${this.limit}?page=${this.$route.query.page}`;
+            query = `${this.limit}?page=${page}`;
+        } else if (this.title) {
+            if (page) {
+                query = `${this.title}/${this.limit}?page=${page}`;
+            } else {
+                query = `${this.title}/${this.limit}`;
+            }
+
+            return this.searchPost(query).then(() => {
+                this.setType();
+            });
+        } else if (this.tag) {
+            if (page) {
+                query = `${this.tag}/${this.limit}?page=${page}`;
+            } else {
+                query = `${this.tag}/${this.limit}`;
+            }
+
+            return this.searchPostByTag(query).then(() => {
+                this.setType();
+            });
         } else {
             query = this.limit;
         }
 
         this.getPosts(query).then(() => {
-            this.pageNumber = this.getPagingRange(
-                parseInt(this.posts.data.current_page),
-                {
-                    total: this.getTotalPage(this.posts.data.total, this.limit),
-                    length: this.limit
-                }
-            );
-
-            this.firstLoad = false;
+            this.setType();
         });
     }
 };

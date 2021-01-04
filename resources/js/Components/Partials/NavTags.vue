@@ -4,12 +4,7 @@
             class="md:w-1/5 my-8"
             v-for="(item, i) in tags.data"
             :key="'tag-' + i"
-            :to="{
-                name: 'Tags',
-                params: {
-                    tag: item
-                }
-            }"
+            :to="`/posts?tag=${item.tags}`"
         >
             <h3
                 class="text-xl font-black transition-colors text-green-500 hover:text-green-600"

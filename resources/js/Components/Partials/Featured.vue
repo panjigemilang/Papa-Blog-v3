@@ -33,9 +33,18 @@ export default {
         this.galleryContent.map((item, i) =>
             items.push(`
                 <div class="flex flex-col">
-                    <p class="mb-6 text-lg font-light">${
-                        item.tags.length > 0 ? "#" + item.tags[0].tags : ""
-                    }</p>
+                    <p class="mb-6 text-lg font-light tracking-widest">
+                        <router-link
+                            class="transition-all duration-300 title"
+                            to="/posts?tag=${item.tags[0].tags}"
+                        >
+                            <i>${
+                                item.tags.length > 0
+                                    ? "#" + item.tags[0].tags
+                                    : ""
+                            }</i>
+                        </router-link>
+                    </p>
                     <h1 class="font-bold text-5xl mb-6">
                         <router-link
                             class="transition-all duration-300 title"

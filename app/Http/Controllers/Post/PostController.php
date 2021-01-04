@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 // Models
 use App\Post;
@@ -159,16 +157,6 @@ class PostController extends Controller
         ]);
 
         return $post;
-    }
-
-    public function searchPost($title)
-    {
-        $criteria = DB::table('posts')
-            ->select('*')
-            ->where('posts.title', 'LIKE', "%" . $title . "%")
-            ->orderBy('posts.id', 'DESC')
-            ->get();
-        return new PostResource($criteria);
     }
 
     public function responseError($th, $message = "Errors occured")

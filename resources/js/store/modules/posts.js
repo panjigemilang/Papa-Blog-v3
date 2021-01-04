@@ -108,6 +108,34 @@ const actions = {
   
       commit('setLoading')
       },
+  async searchPost({ commit }, payload) {
+    commit("setLoading")
+  
+      await axios
+        .get(POST_URL + 'title/' + payload)
+        .then(res => {
+          commit('setPosts', res.data);
+        })
+        .catch(err => {
+          commit("setErrors", err.response.data)
+        })
+  
+      commit('setLoading')      
+      },
+  async searchPostByTag({ commit }, payload) {
+    commit("setLoading")
+  
+      await axios
+        .get(POST_URL + 'tags/' + payload)
+        .then(res => {
+          commit('setPosts', res.data);
+        })
+        .catch(err => {
+          commit("setErrors", err.response.data)
+        })
+  
+      commit('setLoading')      
+      },
   async deletePost({ commit, dispatch }, id) {
     commit("setLoading")
 

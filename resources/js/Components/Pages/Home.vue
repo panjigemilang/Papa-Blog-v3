@@ -12,7 +12,7 @@
                 <News
                     :stripHtml="stripHtml"
                     :shorten="shorten"
-                    :newsContent="posts.data.data"
+                    :newsContent="posts.data"
                 />
                 <div class="text-center my-8">
                     <router-link to="posts">
