@@ -6439,18 +6439,9 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App.vue?vue&type=style&index=0&lang=scss& ***!
   \**************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-var escape = __webpack_require__(/*! ../../node_modules/css-loader/lib/url/escape.js */ "./node_modules/css-loader/lib/url/escape.js");
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "@font-face {\n  font-family: \"Product Sans\";\n\n  src: url(" + escape(__webpack_require__(/*! ../fonts/Product-Sans-Regular.ttf */ "./resources/fonts/Product-Sans-Regular.ttf")) + ") format(\"truetype\");\n\n  font-weight: 300;\n}\nhtml,\nbody {\n  height: 100%;\n  position: relative;\n  width: 100%;\n}\nbody {\n  background-color: var(#f2f8ff);\n  color: var(#1d3557);\n  font-size: 92.5% !important;\n  font-family: \"Product Sans\";\n  margin: 0;\n  padding: 0;\n}\nbody.overflow {\n  overflow-x: hidden;\n}\nbody::-webkit-scrollbar {\n  width: 0.25rem;\n}\nbody::-webkit-scrollbar-track {\n  background: var(#a8dadc);\n}\nbody::-webkit-scrollbar-thumb {\n  background: #e63946;\n}\n#app {\n  overflow-x: hidden;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\nbutton {\n  border: none;\n  cursor: pointer;\n  padding: 15px;\n}\nbutton:hover {\n  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);\n}\nbutton:focus {\n  border: 1px solid rgba(123, 198, 183, 0.5);\n  border-radius: 0;\n  outline: none;\n}\n.btn-box {\n  text-align: center;\n}\nh1.title {\n  font-size: 2.5em;\n  font-weight: bolder;\n}\n#router-link {\n  display: inline-block;\n}", ""]);
-
-// exports
-
+throw new Error("Module build failed (from ./node_modules/postcss-loader/src/index.js):\nTypeError: getProcessedPlugins is not a function\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\tailwindcss\\lib\\processTailwindFeatures.js:75:83\n    at LazyResult.run (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:288:14)\n    at LazyResult.asyncTick (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:212:26)\n    at LazyResult.asyncTick (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:225:14)\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:254:14\n    at new Promise (<anonymous>)\n    at LazyResult.async (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:250:23)\n    at LazyResult.then (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:131:17)\n    at Promise.resolve.then.then (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss-loader\\src\\index.js:142:8)");
 
 /***/ }),
 
@@ -6459,131 +6450,9 @@ exports.push([module.i, "@font-face {\n  font-family: \"Product Sans\";\n\n  src
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Components/Layouts/Navbar.vue?vue&type=style&index=0&lang=scss& ***!
   \************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "nav {\n  background-color: #01382d;\n}\nnav button:hover {\n  box-shadow: none;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/lib/css-base.js":
-/*!*************************************************!*\
-  !*** ./node_modules/css-loader/lib/css-base.js ***!
-  \*************************************************/
-/*! no static exports found */
 /***/ (function(module, exports) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/lib/url/escape.js":
-/*!***************************************************!*\
-  !*** ./node_modules/css-loader/lib/url/escape.js ***!
-  \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = function escape(url) {
-    if (typeof url !== 'string') {
-        return url
-    }
-    // If url is already wrapped in quotes, remove them
-    if (/^['"].*['"]$/.test(url)) {
-        url = url.slice(1, -1);
-    }
-    // Should url be wrapped?
-    // See https://drafts.csswg.org/css-values-3/#urls
-    if (/["'() \t\n]/.test(url)) {
-        return '"' + url.replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"'
-    }
-
-    return url
-}
-
+throw new Error("Module build failed (from ./node_modules/postcss-loader/src/index.js):\nTypeError: getProcessedPlugins is not a function\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\tailwindcss\\lib\\processTailwindFeatures.js:75:83\n    at LazyResult.run (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:288:14)\n    at LazyResult.asyncTick (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:212:26)\n    at LazyResult.asyncTick (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:225:14)\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:254:14\n    at new Promise (<anonymous>)\n    at LazyResult.async (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:250:23)\n    at LazyResult.then (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:131:17)\n    at Promise.resolve.then.then (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss-loader\\src\\index.js:142:8)");
 
 /***/ }),
 
@@ -36490,18 +36359,7 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./resources/fonts/Product-Sans-Regular.ttf":
-/*!**************************************************!*\
-  !*** ./resources/fonts/Product-Sans-Regular.ttf ***!
-  \**************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "/fonts/Product-Sans-Regular.ttf?eae9c18cee82a8a1a52e654911f8fe83";
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleBuildError: Module build failed (from ./node_modules/postcss-loader/src/index.js):\nTypeError: getProcessedPlugins is not a function\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\tailwindcss\\lib\\processTailwindFeatures.js:75:83\n    at LazyResult.run (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:288:14)\n    at LazyResult.asyncTick (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:212:26)\n    at LazyResult.asyncTick (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:225:14)\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:254:14\n    at new Promise (<anonymous>)\n    at LazyResult.async (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:250:23)\n    at LazyResult.then (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss\\lib\\lazy-result.js:131:17)\n    at Promise.resolve.then.then (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss-loader\\src\\index.js:142:8)\n    at process._tickCallback (internal/process/next_tick.js:68:7)\n    at runLoaders (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\webpack\\lib\\NormalModule.js:316:20)\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\loader-runner\\lib\\LoaderRunner.js:367:11\n    at D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\loader-runner\\lib\\LoaderRunner.js:233:18\n    at context.callback (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at Promise.resolve.then.then.catch (D:\\xampp\\htdocs\\Papa-Blog-v3\\node_modules\\postcss-loader\\src\\index.js:208:9)\n    at process._tickCallback (internal/process/next_tick.js:68:7)");
 
 /***/ }),
 
@@ -36903,8 +36761,8 @@ router.beforeEach(function (to, from, next) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Panji\xampp\htdocs\papa-v3\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Panji\xampp\htdocs\papa-v3\resources\css\app.css */"./resources/css/app.css");
+__webpack_require__(/*! D:\xampp\htdocs\Papa-Blog-v3\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\Papa-Blog-v3\resources\css\app.css */"./resources/css/app.css");
 
 
 /***/ })
