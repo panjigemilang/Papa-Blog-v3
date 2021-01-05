@@ -1,0 +1,85 @@
+<template>
+    <div class="featured md:min-h-screen mb-8">
+        <div class="flex flex-row relative">
+            <carousel
+                class="md:w-6/12 md:pl-40 md:pt-32"
+                :autoplay="true"
+                :data="items"
+                :controls="false"
+            ></carousel>
+            <div class="cover-image md:w-6/12 relative">
+                <img
+                    src="img/assets/home.jpg"
+                    class="absolute transform -translate-y-2/4 -right-40 top-80"
+                />
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "Featured-News",
+    props: {
+        galleryContent: Array,
+        shorten: Function,
+        stripHtml: Function
+    },
+    data() {
+        const items = [];
+        const maxChar = 100;
+        const concateText = " ...";
+
+        this.galleryContent.map((item, i) =>
+            items.push(`
+                <div class="flex flex-col p-6 md:p-0">
+                    <p class="mb-6 text-base font-light tracking-widest">
+                        <router-link
+                            class="transition-all duration-300 title"
+                            to="/posts?tag=${item.tags[0].tags}"
+                        >
+                            <i>${
+                                item.tags.length > 0
+                                    ? "#" + item.tags[0].tags
+                                    : ""
+                            }</i>
+                        </router-link>
+                    </p>
+                    <h1 class="font-bold text-2xl md:text-5xl mb-6">
+                        <router-link
+                            class="transition-all duration-300 title"
+                            to="/post/${item.title
+                                .toLowerCase()
+                                .replace(/\s|\+/g, "-")
+                                .replace(/:|&\s|,|;|\./g, "")}/${item.id}"
+                        >
+                            ${item.title}
+                        </router-link>
+                    </h1>
+                    <p class="-z-index-1 relative text-lg mb-6">${
+                        item.content.length > maxChar
+                            ? this.shorten(
+                                  this.stripHtml(item.content),
+                                  maxChar
+                              ).concat(concateText)
+                            : this.stripHtml(item.content)
+                    }</p>
+                </div>
+            `)
+        );
+
+        return {
+            items
+        };
+    }
+};
+</script>
+
+<style scoped>
+
+@media (max-width: 769px) {
+    .featured {
+        min-height: 25rem;
+    }
+}
+</style>

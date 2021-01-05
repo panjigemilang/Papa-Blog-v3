@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/api/users/', 'Auth\AuthController@getAuthenticatedUser')->middleware('jwt.verify');
+
 Route::get('/{any}', function () {
     return view('index');
 })->where('any', '.*');
