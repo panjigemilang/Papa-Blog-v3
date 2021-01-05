@@ -1,6 +1,6 @@
 <template>
-    <div class="featured min-h-screen mb-8">
-        <div class="min-h-screen flex flex-row relative">
+    <div class="featured md:min-h-screen mb-8">
+        <div class="flex flex-row relative">
             <carousel
                 class="md:w-6/12 md:pl-40 md:pt-32"
                 :autoplay="true"
@@ -32,8 +32,8 @@ export default {
 
         this.galleryContent.map((item, i) =>
             items.push(`
-                <div class="flex flex-col">
-                    <p class="mb-6 text-lg font-light tracking-widest">
+                <div class="flex flex-col p-6 md:p-0">
+                    <p class="mb-6 text-base font-light tracking-widest">
                         <router-link
                             class="transition-all duration-300 title"
                             to="/posts?tag=${item.tags[0].tags}"
@@ -45,7 +45,7 @@ export default {
                             }</i>
                         </router-link>
                     </p>
-                    <h1 class="font-bold text-5xl mb-6">
+                    <h1 class="font-bold text-2xl md:text-5xl mb-6">
                         <router-link
                             class="transition-all duration-300 title"
                             to="/post/${item.title
@@ -74,3 +74,11 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+@media (max-width: 769px) {
+    .featured {
+        min-height: 25rem;
+    }
+}
+</style>

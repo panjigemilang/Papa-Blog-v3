@@ -1,7 +1,7 @@
 <template>
-    <div class="card flex flex-row">
+    <div class="card flex flex-row flex-wrap">
         <div
-            class="md:w-4/12 px-4"
+            class="w-12/12 md:w-4/12 px-4 my-4 md:my-0"
             v-for="(post, i) in formattedPosts"
             :key="i"
         >
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <h1
-                        class="text-3xl font-black mb-4 hover:text-blue-600 transition-colors"
+                        class="text-base md:text-3xl font-black mb-4 transition-colors title leading-tight md:leading-none"
                     >
                         <router-link
                             :to="{
@@ -115,4 +115,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.title {
+    min-height: 6.7rem;
+}
+</style>

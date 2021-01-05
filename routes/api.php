@@ -21,12 +21,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/jajal/{id}', 'Post\PostController@jajal');
 
-// For Admin
+Route::middleware('jwt.verify')->group(function() {
+    // For Admin
+    Route::post('/posts/addPost', 'Post\PostController@addPost');
+    Route::post('/post/{id}', 'AdminController@editPost');
+    Route::delete('/post/{id}', 'AdminController@deletePost');
+});
+
+// Auth
 Route::post('/users/login', 'Auth\AuthController@login');
-Route::post('/post', 'AdminController@createPost');
-Route::post('/post/{id}', 'AdminController@editPost');
-Route::post('/posts/addPost', 'Post\PostController@addPost');
-Route::delete('/post/{id}', 'AdminController@deletePost');
 
 // For Posts
 Route::get('posts/{num}', 'PostController@getPosts');

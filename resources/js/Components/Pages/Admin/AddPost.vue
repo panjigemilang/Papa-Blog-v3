@@ -115,7 +115,11 @@ export default {
         ...mapMutations("services", ["setErrors"]),
         ...mapMutations("general", ["setMessages"]),
         addTag() {
-            if (!this.tagsVal == "") this.tags.push(this.tagsVal.trim());
+            if (
+                this.tagsVal != "" &&
+                !this.tags.includes(this.tagsVal.trim().toLowerCase())
+            )
+                this.tags.push(this.tagsVal.trim().toLowerCase());
 
             this.tagsVal = "";
         },

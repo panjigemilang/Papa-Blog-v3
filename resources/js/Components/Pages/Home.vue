@@ -12,7 +12,7 @@
                 <News
                     :stripHtml="stripHtml"
                     :shorten="shorten"
-                    :newsContent="posts.data"
+                    :newsContent="posts.data.data"
                 />
                 <div class="text-center my-8">
                     <router-link to="posts">
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="latest-post container mt-12">
-                <div class="heading mb-16 w-7/12">
+                <div class="heading px-4 md:px-0 mb-16 w-full md:w-7/12">
                     <h1 class="text-4xl">
                         Latest Posts
                     </h1>

@@ -15,24 +15,24 @@
                 Subscribe and join thousands like you!
             </h1>
             <div
-                class="sosmed md:w-1/6 w-6/6 flex flex-row justify-center items-center"
+                class="sosmed md:w-1/6 w-6/6 flex flex-row justify-center items-center mx-auto"
             >
                 <a
                     href="http://instagram.com/_panjig"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <i class="fab fa-instagram text-3xl mr-4"></i>
+                    <i class="fab fa-instagram text-3xl mx-2"></i>
                 </a>
                 <a
                     href="/img/assets/line.jpeg"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    <i class="fab fa-line text-3xl mr-4"></i>
+                    <i class="fab fa-line text-3xl mx-2"></i>
                 </a>
                 <a href="mailto:panjigemilang31298@gmail.com">
-                    <i class="far fa-envelope text-3xl mr-4"></i>
+                    <i class="far fa-envelope text-3xl mx-2"></i>
                 </a>
             </div>
         </div>

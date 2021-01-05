@@ -1,5 +1,5 @@
 <template>
-    <div class="app min-h-screen">
+    <div class="app md:min-h-screen">
         <Navbar />
         <div class="transition-all duration-300">
             <router-view :key="$route.path"></router-view>
@@ -233,5 +233,11 @@ input:not([type="date"]) {
     position: absolute;
     top: 0;
     width: 100%;
+}
+
+@media (max-width: 640px) {
+    h1.title {
+        font-size: 1.8em;
+    }
 }
 </style>

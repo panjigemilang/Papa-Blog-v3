@@ -1,7 +1,7 @@
 <template>
-    <div class="container flex flex-row w-full text-center">
+    <div class="container flex flex-row px-8 md:px-0 md:w-full text-center">
         <router-link
-            class="md:w-1/5 my-8"
+            class="w-3/6 md:w-1/5 my-8"
             v-for="(item, i) in tags.data"
             :key="'tag-' + i"
             :to="`/posts?tag=${item.tags}`"

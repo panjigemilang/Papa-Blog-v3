@@ -33,7 +33,7 @@ class PostController extends Controller
         $code = 404;
         $message = "post data not found";
 
-        $criteria = Post::with('tags')->orderBy('created_at', 'DESC')
+        $criteria = Post::with('tags', 'pictures')->orderBy('created_at', 'DESC')
             ->where('id', '=', $id)
             ->get();
 

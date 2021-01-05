@@ -50,3 +50,24 @@
   color: #b80000;
 }
 
+@media (max-width: 769px) {
+  .featured .carousel .carousel__indicators {
+    top: unset;
+  }
+
+  .post-detail .content div,
+  .post-detail .content p,
+  .post-detail .content blockquote,
+  .post-detail .content h1,
+  .post-detail .content h2,
+  .post-detail .content h3,
+  .post-detail .content h4,
+  .post-detail .content h5,
+  .post-detail .content h6,
+  .post-detail .content section,
+  .post-detail .content aside,
+  .post-detail .content article {
+    width: 100% !important;
+  }
+}
+

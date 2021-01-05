@@ -4,13 +4,15 @@
             <h1 class="text-4xl p-4">No Post Found.</h1>
         </div>
         <div
-            class="news-content flex flex-row py-16 border-t-2 border-gray-200"
+            class="news-content flex flex-row flex-wrap py-8 md:py-16 border-t-2 border-gray-200"
             v-for="(content, i) in formattedPosts"
             :key="i"
             v-else
         >
-            <div class="content relative pr-28 pt-4 w-7/12">
-                <h1 class="font-black mb-4 tracking-wide md:text-4xl">
+            <div
+                class="content relative px-8 md:pr-28 pt-4 w-full md:w-7/12 order-2 md:order-1"
+            >
+                <h1 class="font-black mb-4 tracking-wide text-lg md:text-4xl">
                     <router-link
                         class="transition-all duration-300 title"
                         :to="{
@@ -38,7 +40,7 @@
                     }}
                 </p>
                 <small
-                    class="absolute -bottom-8 right-20 text-base flex flex-row"
+                    class="float-right static md:absolute -bottom-8 right-20 text-sm md:text-base flex flex-row pt-4 md:pt-0"
                 >
                     <img
                         src="img/assets/icons/ic_date_range_24px.svg"
@@ -48,7 +50,7 @@
                 </small>
             </div>
             <router-link
-                class="w-5/12"
+                class="w-full md:w-5/12 order-1 md:order-2"
                 :to="{
                     name: 'Post',
                     params: {
@@ -102,6 +104,8 @@ export default {
             return posts;
         },
         emptyNews() {
+            console.log("News", this.newsContent);
+
             return isEmpty(this.newsContent);
         }
     }

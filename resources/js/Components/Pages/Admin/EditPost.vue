@@ -112,7 +112,26 @@ export default {
     },
     computed: {
         ...mapState("posts", ["loading", "errors", "post"]),
-        ...mapState("services", ["user"])
+        ...mapState("services", ["user"]),
+        formattedContent() {
+            let content = this.post.data[0].content;
+
+            // replace empty src with data
+            const imagesLength = this.post.data[0].pictures.length;
+
+            if (isEmpty(imagesLength)) {
+                return content;
+            } else {
+                for (let i = 0; i < imagesLength; i++) {
+                    content = content.replace(
+                        'src=""',
+                        `src="${this.post.data[0].pictures[i].img_path}"`
+                    );
+                }
+
+                return content;
+            }
+        }
     },
     methods: {
         ...mapActions("posts", ["editPost", "getPost"]),
@@ -192,7 +211,7 @@ export default {
 
         this.getPost(this.$route.params.id).then(() => {
             this.title = this.post.data[0].title;
-            this.content = this.post.data[0].content;
+            this.content = this.formattedContent;
 
             if (!isEmpty(this.post.data[0].tags)) {
                 this.post.data[0].tags.map(item => this.tags.push(item.tags));

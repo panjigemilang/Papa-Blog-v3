@@ -120,16 +120,12 @@ export default {
             let temp = 0;
 
             const result = posts.filter(item => {
-                console.log("TEMP : ITEM.id", temp, item.id);
-
                 if (temp != item.id) {
                     temp = item.id;
 
                     return item;
                 }
             });
-
-            console.log("Result", result);
 
             return posts;
         },

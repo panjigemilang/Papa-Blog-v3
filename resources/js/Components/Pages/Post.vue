@@ -10,20 +10,44 @@
                 />
                 <div class="overlay"></div>
                 <h1
-                    class="font-black text-lg md:text-5xl absolute bottom-12 w-7/12 py-8 pl-16 tracking-wider text-white"
+                    class="font-black text-2xl md:text-5xl absolute bottom-6 md:bottom-12 w-full md:w-7/12 py-8 pl-6 md:pl-16 tracking-wider text-white"
                 >
                     {{ post.data[0].title }}
                 </h1>
             </div>
             <div class="container flex flex-row flex-wrap">
-                <div class="md:w-7/12 p-8 content">
-                    <div v-html="content"></div>
+                <div class="w-full md:w-7/12 py-4 px-8">
+                    <div class="flex flex-row flex-wrap pb-2 md:pb-0">
+                        <p class="md:py-4 break-words text-blue-500">
+                            Blog >&nbsp;
+                        </p>
+                        <p
+                            class="md:py-4 break-words text-blue-500 hover:text-blue-600"
+                        >
+                            <router-link
+                                :to="
+                                    `/posts?tag=${activeTag.replace(' > ', '')}`
+                                "
+                            >
+                                {{ activeTag }}
+                            </router-link>
+                        </p>
+                        <p class="md:py-4 break-words text-blue-500">
+                            {{ post.data[0].title }}
+                        </p>
+                    </div>
+                    <div class="content" v-html="content"></div>
                 </div>
-                <div class="relative md:w-5/12">
+                <div class="relative w-full md:w-5/12">
                     <Trending />
                 </div>
             </div>
             <div class="container">
+                <h1
+                    class="tracking-wider text-xl md:text-4xl font-black md:mb-4 px-4"
+                >
+                    You May Also Like
+                </h1>
                 <NewsCard :shorten="shorten" :newsContent="excludePost" />
             </div>
         </fragment>
@@ -55,27 +79,36 @@ export default {
             content = content.replace(/&lt;/g, "<");
             content = content.replace(/&gt;/g, ">");
             // replace empty src with data
-            const images = content.match(/src=""/g);
+            const imagesLength = this.post.data[0].pictures.length;
 
-            if (isEmpty(images)) {
+            if (isEmpty(imagesLength)) {
                 return content;
             } else {
-                for (let i = 0; i < images.length; i++) {
+                for (let i = 0; i < imagesLength; i++) {
                     content = content.replace(
                         'src=""',
-                        `src="${this.post.data[i].img_path}"`
+                        `src="${this.post.data[0].pictures[i].img_path}"`
                     );
                 }
 
                 return content;
             }
         },
+        activeTag() {
+            let content = this.post.data[0].tags[0].tags.length
+                ? this.post.data[0].tags[0].tags
+                : "";
+
+            if (content) {
+                content += " > ";
+            }
+
+            return content;
+        },
         excludePost() {
             const posts = this.posts.data.data.filter(
                 item => item.id != this.$route.params.id
             );
-
-            console.log("Posts, Route", posts, this.$route);
 
             return posts;
         }
@@ -100,7 +133,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.banner-image {
-    height: 60vh;
+@media (max-width: 640px) {
+    .banner-image {
+        height: 60vh;
+    }
 }
 </style>
