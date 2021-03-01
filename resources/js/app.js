@@ -11,15 +11,25 @@ try {
 } catch (e) {}
 
 import Vue from 'vue'
+import store from './store'
+import App from './App.vue'
 import VueRouter from 'vue-router'
 import router from './routes'
-import App from './App.vue'
-import "../css/app.css"
+import wysiwyg from "vue-wysiwyg";
+import VueCarousel from '@chenfengyuan/vue-carousel';
+import { Fragment } from 'vue-fragment'
+import "vue-wysiwyg/dist/vueWysiwyg.css";
 
+Vue.use(wysiwyg, {
+    forcePlainTextOnPaste: true,
+});
+Vue.use(VueCarousel);
+Vue.use(Fragment)
 Vue.use(VueRouter)
  
 const vm = new Vue({
     el: '#root',
     router,
+    store,
     render: h => h(App)
 })
