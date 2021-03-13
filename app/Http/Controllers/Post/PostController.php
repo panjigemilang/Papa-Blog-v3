@@ -96,8 +96,6 @@ class PostController extends Controller
                     // convert string to array
                     $tags = explode(',', $req->tags);
 
-                    var_dump($tags);
-
                     foreach ($tags as $tag) { 
                         // search for the text, if exists then add the tag id
                         $temp = Tag::firstWhere('tags', $tag);
