@@ -18,7 +18,6 @@ import Toast from "./Components/Utils/Toast";
 import setAuthToken from "./Components/Utils/setAuthToken";
 import { mapActions, mapState } from "vuex";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
 
 export default {
     name: "App",
@@ -143,6 +142,10 @@ h1.title {
 
 .ml-22 {
     margin-left: 5.3rem;
+}
+
+.link:hover {
+    filter: grayscale(0.4);
 }
 
 label {

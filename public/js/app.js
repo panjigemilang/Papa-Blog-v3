@@ -2819,8 +2819,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Utils_setAuthToken__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Components/Utils/setAuthToken */ "./resources/js/Components/Utils/setAuthToken.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! jwt-decode */ "./node_modules/jwt-decode/build/jwt-decode.esm.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2839,7 +2837,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-
 
 
 
@@ -3248,6 +3245,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (!this.image_cover.type.includes("image")) {
           return this.toggleToast();
         }
+      } // check if content is empty
+
+
+      if (!this.content) {
+        this.setErrors({
+          message: "Content can't be empty!"
+        });
+        return this.toggleToast();
       } // clearing all errors
 
 
@@ -3896,6 +3901,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3930,13 +3952,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     activeTag: function activeTag() {
-      var content = this.post.data[0].tags[0].tags.length ? this.post.data[0].tags[0].tags : "";
+      var content = this.post.data[0].tags.length ? this.post.data[0].tags[0].tags : "";
 
       if (content) {
-        content += " > ";
+        content += " >";
       }
 
       return content;
+    },
+    customtag: function customtag() {
+      var min = 0,
+          max = 2;
+      var random = Math.floor(Math.random() * (max - min + 1) + min);
+      console.log("Random", random);
+      if (random === 0) return "bg-red-800";else if (random === 1) return "bg-yellow-300";else return "bg-green-500";
     },
     excludePost: function excludePost() {
       var _this = this;
@@ -4422,6 +4451,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4448,7 +4488,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return posts;
     },
     emptyNews: function emptyNews() {
-      console.log("News", this.newsContent);
       return _Utils_isEmpty__WEBPACK_IMPORTED_MODULE_1___default()(this.newsContent);
     }
   }
@@ -4561,6 +4600,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "News_Card",
@@ -4582,7 +4634,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           updated_at: new moment__WEBPACK_IMPORTED_MODULE_0___default.a(item.updated_at).format("DD-MMM-YYYY")
         });
       });
-      return posts;
+      var slicedPosts = posts.slice(0, 3);
+      return slicedPosts;
     }
   }
 });
@@ -4609,6 +4662,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -4735,10 +4790,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return _Utils_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(this.posts);
     }
   },
-  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("posts", ["deletePost"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("general", ["toggleToast"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("general", ["setMessages"])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("posts", ["deletePost"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])("general", ["toggleToast"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("posts", ["setErrors"])), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])("general", ["setMessages"])), {}, {
     onDelete: function onDelete(postId) {
       var _this = this;
 
+      this.setErrors({});
       var confirm = window.confirm("Are you sure you want to delete it?");
 
       if (confirm) {
@@ -9467,7 +9523,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: \"Product Sans\";\n\n  src: url(" + escape(__webpack_require__(/*! ../fonts/Product-Sans-Regular.ttf */ "./resources/fonts/Product-Sans-Regular.ttf")) + ") format(\"truetype\");\n\n  font-weight: 300;\n}\nhtml,\nbody {\n  height: 100%;\n  position: relative;\n  width: 100%;\n}\nbody {\n  background-color: var(#2062d4);\n  color: var(#1d3557);\n  font-size: 92.5% !important;\n  font-family: \"Product Sans\";\n  margin: 0;\n  overflow-x: hidden;\n  padding: 0;\n}\nbody.overflow {\n  overflow-x: hidden;\n}\nbody::-webkit-scrollbar {\n  width: 0.25rem;\n}\nbody::-webkit-scrollbar-track {\n  background: var(#a8dadc);\n}\nbody::-webkit-scrollbar-thumb {\n  background: #e63946;\n}\n#app {\n  overflow-x: hidden;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\nbutton {\n  border: none;\n  cursor: pointer;\n  padding: 15px;\n  transition: 0.3s ease-in-out;\n}\nbutton:hover {\n  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);\n}\nbutton:focus {\n  border: 1px solid rgba(123, 198, 183, 0.5);\n  outline: none;\n}\n.btn-box {\n  text-align: center;\n}\nh1.title {\n  font-size: 2.5em;\n  font-weight: bolder;\n}\n#router-link {\n  display: inline-block;\n}\n.title:hover {\n  color: #2062d4;\n}\n.ml-22 {\n  margin-left: 5.3rem;\n}\nlabel {\n  color: rgba(160, 160, 160, 0.8);\n}\nspan.required {\n  color: #f80e25;\n}\nlabel.control-label {\n  cursor: text;\n  font-size: 1.2em;\n  position: absolute;\n  top: 0;\n  left: 0;\n  transition: 0.3s ease-in-out;\n  z-index: 0;\n}\ninput:focus {\n  border-color: rgba(69, 235, 138, 0.8) !important;\n  outline: none;\n}\ninput:not([type=date]) {\n  background-color: transparent;\n  border: none;\n  border-bottom: 2px rgba(160, 160, 160, 0.7) solid;\n}\ninput:not([type=date]):focus + .control-label {\n  pointer-events: none;\n  top: -18px;\n  left: 2px;\n  font-size: 0.9rem;\n}\n.control-label-not-empty {\n  pointer-events: none !important;\n  top: -18px !important;\n  left: 2px !important;\n  font-size: 0.9rem !important;\n}\n.form-control {\n  background-clip: padding-box;\n  background-color: #fff;\n  border: 1px solid #ced4da;\n  border-radius: 0.25rem;\n  color: #495057;\n  display: block;\n  font-size: 1rem;\n  line-height: 1.5;\n  padding: 0.375rem 0.75rem;\n  transition: border-color 0.15s ease-in-out;\n  width: 100%;\n}\n.form-control:focus {\n  background-color: #fff;\n  border-color: #80bdff;\n  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);\n  color: #495057;\n  outline: 0;\n}\n.form-group {\n  margin-bottom: 1.67rem;\n  margin-left: auto;\n  margin-right: auto;\n  max-width: 90%;\n  position: relative;\n}\n.border-1 {\n  border-width: 1px;\n}\n.overlay {\n  background: #3da4f9;\n  background: linear-gradient(180deg, rgba(61, 164, 249, 0) -60%, rgba(0, 0, 0, 0.75) 100%);\n  height: 100%;\n  position: absolute;\n  top: 0;\n  width: 100%;\n}\n@media (max-width: 640px) {\nh1.title {\n    font-size: 1.8em;\n}\n}", ""]);
+exports.push([module.i, "@font-face {\n  font-family: \"Product Sans\";\n\n  src: url(" + escape(__webpack_require__(/*! ../fonts/Product-Sans-Regular.ttf */ "./resources/fonts/Product-Sans-Regular.ttf")) + ") format(\"truetype\");\n\n  font-weight: 300;\n}\nhtml,\nbody {\n  height: 100%;\n  position: relative;\n  width: 100%;\n}\nbody {\n  background-color: var(#2062d4);\n  color: var(#1d3557);\n  font-size: 92.5% !important;\n  font-family: \"Product Sans\";\n  margin: 0;\n  overflow-x: hidden;\n  padding: 0;\n}\nbody.overflow {\n  overflow-x: hidden;\n}\nbody::-webkit-scrollbar {\n  width: 0.25rem;\n}\nbody::-webkit-scrollbar-track {\n  background: var(#a8dadc);\n}\nbody::-webkit-scrollbar-thumb {\n  background: #e63946;\n}\n#app {\n  overflow-x: hidden;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n}\nbutton {\n  border: none;\n  cursor: pointer;\n  padding: 15px;\n  transition: 0.3s ease-in-out;\n}\nbutton:hover {\n  box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);\n}\nbutton:focus {\n  border: 1px solid rgba(123, 198, 183, 0.5);\n  outline: none;\n}\n.btn-box {\n  text-align: center;\n}\nh1.title {\n  font-size: 2.5em;\n  font-weight: bolder;\n}\n#router-link {\n  display: inline-block;\n}\n.title:hover {\n  color: #2062d4;\n}\n.ml-22 {\n  margin-left: 5.3rem;\n}\n.link:hover {\n  filter: grayscale(0.4);\n}\nlabel {\n  color: rgba(160, 160, 160, 0.8);\n}\nspan.required {\n  color: #f80e25;\n}\nlabel.control-label {\n  cursor: text;\n  font-size: 1.2em;\n  position: absolute;\n  top: 0;\n  left: 0;\n  transition: 0.3s ease-in-out;\n  z-index: 0;\n}\ninput:focus {\n  border-color: rgba(69, 235, 138, 0.8) !important;\n  outline: none;\n}\ninput:not([type=date]) {\n  background-color: transparent;\n  border: none;\n  border-bottom: 2px rgba(160, 160, 160, 0.7) solid;\n}\ninput:not([type=date]):focus + .control-label {\n  pointer-events: none;\n  top: -18px;\n  left: 2px;\n  font-size: 0.9rem;\n}\n.control-label-not-empty {\n  pointer-events: none !important;\n  top: -18px !important;\n  left: 2px !important;\n  font-size: 0.9rem !important;\n}\n.form-control {\n  background-clip: padding-box;\n  background-color: #fff;\n  border: 1px solid #ced4da;\n  border-radius: 0.25rem;\n  color: #495057;\n  display: block;\n  font-size: 1rem;\n  line-height: 1.5;\n  padding: 0.375rem 0.75rem;\n  transition: border-color 0.15s ease-in-out;\n  width: 100%;\n}\n.form-control:focus {\n  background-color: #fff;\n  border-color: #80bdff;\n  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);\n  color: #495057;\n  outline: 0;\n}\n.form-group {\n  margin-bottom: 1.67rem;\n  margin-left: auto;\n  margin-right: auto;\n  max-width: 90%;\n  position: relative;\n}\n.border-1 {\n  border-width: 1px;\n}\n.overlay {\n  background: #3da4f9;\n  background: linear-gradient(180deg, rgba(61, 164, 249, 0) -60%, rgba(0, 0, 0, 0.75) 100%);\n  height: 100%;\n  position: absolute;\n  top: 0;\n  width: 100%;\n}\n@media (max-width: 640px) {\nh1.title {\n    font-size: 1.8em;\n}\n}", ""]);
 
 // exports
 
@@ -9543,7 +9599,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "@media (max-width: 640px) {\n.banner-image[data-v-3381a736] {\n    height: 60vh;\n}\n}", ""]);
+exports.push([module.i, ".banner-image[data-v-3381a736] {\n  height: 60vh;\n}", ""]);
 
 // exports
 
@@ -47156,52 +47212,59 @@ var render = function() {
     },
     [
       _c("ul", { staticClass: "flex flex-col h-full" }, [
-        _c("li", { staticClass: "mb-4" }, [
-          _vm.isAuthenticated
-            ? _c(
-                "button",
-                {
-                  staticClass: "w-full",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.onLogout($event)
+        _c(
+          "li",
+          {
+            staticClass: "mb-4",
+            attrs: { title: _vm.isAuthenticated ? "Logout" : "Login" }
+          },
+          [
+            _vm.isAuthenticated
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "w-full",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.onLogout($event)
+                      }
                     }
-                  }
-                },
-                [_vm._m(0)]
-              )
-            : _c(
-                "button",
-                {
-                  staticClass: "w-full",
-                  attrs: { type: "button" },
-                  on: { click: _vm.toggleNavbar }
-                },
-                [
-                  _c("router-link", { attrs: { to: "/login" } }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "bg-green-400 rounded-full h-14 w-14 flex items-center justify-center"
-                      },
-                      [
-                        _c("i", {
-                          staticClass: "text-white fas fa-sign-in-alt"
-                        })
-                      ]
-                    )
-                  ])
-                ],
-                1
-              )
-        ]),
+                  },
+                  [_vm._m(0)]
+                )
+              : _c(
+                  "button",
+                  {
+                    staticClass: "w-full",
+                    attrs: { type: "button" },
+                    on: { click: _vm.toggleNavbar }
+                  },
+                  [
+                    _c("router-link", { attrs: { to: "/login" } }, [
+                      _c(
+                        "div",
+                        {
+                          staticClass:
+                            "bg-green-400 rounded-full h-14 w-14 flex items-center justify-center"
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "text-white fas fa-sign-in-alt"
+                          })
+                        ]
+                      )
+                    ])
+                  ],
+                  1
+                )
+          ]
+        ),
         _vm._v(" "),
         _c(
           "li",
-          { staticClass: "mb-4" },
+          { staticClass: "mb-4", attrs: { title: "Home" } },
           [
             _c("router-link", { attrs: { to: "/" } }, [
               _c(
@@ -47218,7 +47281,7 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("li", { staticClass: "mb-4 mt-auto" }, [
+        _c("li", { staticClass: "mb-4 mt-auto", attrs: { title: "Search" } }, [
           _c(
             "button",
             {
@@ -47232,7 +47295,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "li",
-          { staticClass: "mb-4" },
+          { staticClass: "mb-4", attrs: { title: "Dashboard" } },
           [
             _vm.user.who == "admin"
               ? _c("router-link", { attrs: { to: "/admin" } }, [
@@ -47255,7 +47318,7 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("li", { staticClass: "mb-4" }, [
+        _c("li", { staticClass: "mb-4", attrs: { title: "Add Post" } }, [
           _vm.user.who == "admin"
             ? _c(
                 "button",
@@ -48153,42 +48216,37 @@ var render = function() {
                       { staticClass: "md:py-4 break-words text-blue-500" },
                       [
                         _vm._v(
-                          "\n                        Blog > \n                    "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "p",
-                      {
-                        staticClass:
-                          "md:py-4 break-words text-blue-500 hover:text-blue-600"
-                      },
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              to:
-                                "/posts?tag=" + _vm.activeTag.replace(" > ", "")
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(_vm.activeTag) +
-                                "\n                        "
+                          "\n                        Blog >\n                        "
+                        ),
+                        _vm.activeTag
+                          ? _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "md:py-4 break-words text-blue-500 hover:text-blue-600"
+                              },
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    attrs: {
+                                      to:
+                                        "/posts?tag=" +
+                                        _vm.activeTag.replace(" > ", "")
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                 " +
+                                        _vm._s(_vm.activeTag) +
+                                        " \n                            "
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
                             )
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "p",
-                      { staticClass: "md:py-4 break-words text-blue-500" },
-                      [
+                          : _vm._e(),
                         _vm._v(
                           "\n                        " +
                             _vm._s(_vm.post.data[0].title) +
@@ -48199,8 +48257,47 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "tags flex flex-wrap items-center my-3" },
+                  [
+                    _c("p", { staticClass: "mr-1.5" }, [_vm._v("Tags :")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.post.data[0].tags, function(item) {
+                      return _c(
+                        "span",
+                        {
+                          key: "tag-" + item.tags,
+                          staticClass:
+                            "p-2.5 rounded-lg mr-1.5 text-white link",
+                          class: _vm.customtag
+                        },
+                        [
+                          _c(
+                            "router-link",
+                            { attrs: { to: "/posts?tag=" + item.tags } },
+                            [
+                              _vm._v(
+                                "\n                            #" +
+                                  _vm._s(item.tags) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
                 _c("div", {
-                  staticClass: "content",
+                  staticClass: "content my-3",
                   domProps: { innerHTML: _vm._s(_vm.content) }
                 })
               ]),
@@ -48602,6 +48699,34 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c(
+                      "div",
+                      { staticClass: "tags flex flex-wrap items-center my-3" },
+                      _vm._l(content.tags, function(item) {
+                        return _c(
+                          "span",
+                          {
+                            key: "tag-" + item.tags,
+                            staticClass:
+                              "px-2.5 py-1.5 rounded-lg mr-1.5 text-blue-400 hover:text-blue-600 link"
+                          },
+                          [
+                            _c(
+                              "router-link",
+                              { attrs: { to: "/posts?tag=" + item.tags } },
+                              [
+                                _c("i", [
+                                  _vm._v(" #" + _vm._s(item.tags) + " ")
+                                ])
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _c(
                       "small",
                       {
                         staticClass:
@@ -48748,46 +48873,76 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "h1",
-                    {
-                      staticClass:
-                        "text-base md:text-3xl font-black mb-4 transition-colors title leading-tight md:leading-none"
-                    },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          attrs: {
-                            to: {
-                              name: "Post",
-                              params: {
-                                id: post.id,
-                                title: post.title
-                                  .toLowerCase()
-                                  .replace(/\s|\+/g, "-")
-                                  .replace(/:|&\s|,|;|\./g, "")
+                  _c("div", { staticClass: "flex flex-wrap h-40" }, [
+                    _c(
+                      "h1",
+                      {
+                        staticClass:
+                          "mb-auto text-base md:text-3xl font-black transition-colors title leading-tight md:leading-none w-full"
+                      },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            attrs: {
+                              to: {
+                                name: "Post",
+                                params: {
+                                  id: post.id,
+                                  title: post.title
+                                    .toLowerCase()
+                                    .replace(/\s|\+/g, "-")
+                                    .replace(/:|&\s|,|;|\./g, "")
+                                }
                               }
                             }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                        " +
-                              _vm._s(
-                                post.title.length > _vm.maxChar
-                                  ? _vm
-                                      .shorten(post.title, _vm.maxChar)
-                                      .concat(_vm.concateText)
-                                  : post.title
-                              ) +
-                              "\n                    "
-                          )
-                        ]
-                      )
-                    ],
-                    1
-                  ),
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(
+                                  post.title.length > _vm.maxChar
+                                    ? _vm
+                                        .shorten(post.title, _vm.maxChar)
+                                        .concat(_vm.concateText)
+                                    : post.title
+                                ) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "tags flex flex-wrap items-center my-3" },
+                      _vm._l(post.tags, function(item) {
+                        return _c(
+                          "span",
+                          {
+                            key: "tag-" + item.tags,
+                            staticClass:
+                              "px-2.5 py-1.5 rounded-lg mr-1.5 text-blue-400 hover:text-blue-600 link"
+                          },
+                          [
+                            _c(
+                              "router-link",
+                              { attrs: { to: "/posts?tag=" + item.tags } },
+                              [
+                                _c("i", [
+                                  _vm._v(" #" + _vm._s(item.tags) + " ")
+                                ])
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      }),
+                      0
+                    )
+                  ]),
                   _vm._v(" "),
                   _c(
                     "router-link",
@@ -68207,10 +68362,9 @@ var actions = {
               num = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : 5;
               _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(BASE_URL + num).then(function (res) {
-                console.log("Get Tags", res.data);
-                commit('setTags', res.data);
+                commit("setTags", res.data);
               })["catch"](function (err) {
-                commit('posts/setErrors', err, {
+                commit("posts/setErrors", err, {
                   root: true
                 });
               });

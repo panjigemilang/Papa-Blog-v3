@@ -39,6 +39,17 @@
                             : stripHtml(content.content)
                     }}
                 </p>
+                <div class="tags flex flex-wrap items-center my-3">
+                    <span
+                        class="px-2.5 py-1.5 rounded-lg mr-1.5 text-blue-400 hover:text-blue-600 link"
+                        v-for="item in content.tags"
+                        :key="`tag-${item.tags}`"
+                    >
+                        <router-link :to="`/posts?tag=${item.tags}`">
+                            <i> #{{ item.tags }} </i>
+                        </router-link>
+                    </span>
+                </div>
                 <small
                     class="float-right static md:absolute -bottom-8 right-20 text-sm md:text-base flex flex-row pt-4 md:pt-0"
                 >
@@ -104,8 +115,6 @@ export default {
             return posts;
         },
         emptyNews() {
-            console.log("News", this.newsContent);
-
             return isEmpty(this.newsContent);
         }
     }

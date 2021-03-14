@@ -4,7 +4,7 @@
         :class="navbar ? 'left-0' : '-left-20'"
     >
         <ul class="flex flex-col h-full">
-            <li class="mb-4">
+            <li class="mb-4" :title="isAuthenticated ? 'Logout' : 'Login'">
                 <button
                     class="w-full"
                     type="button"
@@ -32,26 +32,26 @@
                     </router-link>
                 </button>
             </li>
-            <li class="mb-4">
+            <li class="mb-4" title="Home">
                 <router-link to="/">
                     <button class="w-full" @click="toggleNavbar" type="button">
                         <i class="text-white fas fa-home fa-primary"></i>
                     </button>
                 </router-link>
             </li>
-            <li class="mb-4 mt-auto">
+            <li class="mb-4 mt-auto" title="Search">
                 <button class="w-full" @click="onSearch" type="button">
                     <i class="text-white fas fa-search fa-primary"></i>
                 </button>
             </li>
-            <li class="mb-4">
+            <li class="mb-4" title="Dashboard">
                 <router-link to="/admin" v-if="user.who == 'admin'">
                     <button class="w-full" @click="toggleNavbar" type="button">
                         <i class="text-white fas fa-columns fa-primary"></i>
                     </button>
                 </router-link>
             </li>
-            <li class="mb-4">
+            <li class="mb-4" title="Add Post">
                 <button
                     class="w-full"
                     @click="toggleNavbar"

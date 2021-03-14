@@ -38,30 +38,43 @@
                             {{ post.admin.name }}
                         </div>
                     </div>
-                    <h1
-                        class="text-base md:text-3xl font-black mb-4 transition-colors title leading-tight md:leading-none"
-                    >
-                        <router-link
-                            :to="{
-                                name: 'Post',
-                                params: {
-                                    id: post.id,
-                                    title: post.title
-                                        .toLowerCase()
-                                        .replace(/\s|\+/g, '-')
-                                        .replace(/:|&\s|,|;|\./g, '')
-                                }
-                            }"
+                    <div class="flex flex-wrap h-40">
+                        <h1
+                            class="mb-auto text-base md:text-3xl font-black transition-colors title leading-tight md:leading-none w-full"
                         >
-                            {{
-                                post.title.length > maxChar
-                                    ? shorten(post.title, maxChar).concat(
-                                          concateText
-                                      )
-                                    : post.title
-                            }}
-                        </router-link>
-                    </h1>
+                            <router-link
+                                :to="{
+                                    name: 'Post',
+                                    params: {
+                                        id: post.id,
+                                        title: post.title
+                                            .toLowerCase()
+                                            .replace(/\s|\+/g, '-')
+                                            .replace(/:|&\s|,|;|\./g, '')
+                                    }
+                                }"
+                            >
+                                {{
+                                    post.title.length > maxChar
+                                        ? shorten(post.title, maxChar).concat(
+                                              concateText
+                                          )
+                                        : post.title
+                                }}
+                            </router-link>
+                        </h1>
+                        <div class="tags flex flex-wrap items-center my-3">
+                            <span
+                                class="px-2.5 py-1.5 rounded-lg mr-1.5 text-blue-400 hover:text-blue-600 link"
+                                v-for="item in post.tags"
+                                :key="`tag-${item.tags}`"
+                            >
+                                <router-link :to="`/posts?tag=${item.tags}`">
+                                    <i> #{{ item.tags }} </i>
+                                </router-link>
+                            </span>
+                        </div>
+                    </div>
                     <router-link
                         :to="{
                             name: 'Post',
@@ -109,7 +122,9 @@ export default {
                 updated_at: new moment(item.updated_at).format("DD-MMM-YYYY")
             }));
 
-            return posts;
+            const slicedPosts = posts.slice(0, 3);
+
+            return slicedPosts;
         }
     }
 };

@@ -133,6 +133,14 @@ export default {
                     return this.toggleToast();
                 }
             }
+
+            // check if content is empty
+            if (!this.content) {
+                this.setErrors({
+                    message: "Content can't be empty!"
+                });
+                return this.toggleToast();
+            }
             // clearing all errors
             this.setErrors({});
             // Extracting all the base64 images

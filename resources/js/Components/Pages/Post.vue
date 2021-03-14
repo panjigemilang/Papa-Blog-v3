@@ -19,24 +19,41 @@
                 <div class="w-full md:w-7/12 py-4 px-8">
                     <div class="flex flex-row flex-wrap pb-2 md:pb-0">
                         <p class="md:py-4 break-words text-blue-500">
-                            Blog >&nbsp;
-                        </p>
-                        <p
-                            class="md:py-4 break-words text-blue-500 hover:text-blue-600"
-                        >
-                            <router-link
-                                :to="
-                                    `/posts?tag=${activeTag.replace(' > ', '')}`
-                                "
+                            Blog >
+                            <span
+                                class="md:py-4 break-words text-blue-500 hover:text-blue-600"
+                                v-if="activeTag"
                             >
-                                {{ activeTag }}
-                            </router-link>
-                        </p>
-                        <p class="md:py-4 break-words text-blue-500">
+                                <router-link
+                                    :to="
+                                        `/posts?tag=${activeTag.replace(
+                                            ' > ',
+                                            ''
+                                        )}`
+                                    "
+                                >
+                                    &nbsp;{{ activeTag }}&nbsp;
+                                </router-link>
+                            </span>
                             {{ post.data[0].title }}
                         </p>
                     </div>
-                    <div class="content" v-html="content"></div>
+                    <hr />
+                    <div class="tags flex flex-wrap items-center my-3">
+                        <p class="mr-1.5">Tags :</p>
+                        <span
+                            class="p-2.5 rounded-lg mr-1.5 text-white link"
+                            :class="customtag"
+                            v-for="item in post.data[0].tags"
+                            :key="`tag-${item.tags}`"
+                        >
+                            <router-link :to="`/posts?tag=${item.tags}`">
+                                #{{ item.tags }}
+                            </router-link>
+                        </span>
+                    </div>
+                    <hr />
+                    <div class="content my-3" v-html="content"></div>
                 </div>
                 <div class="relative w-full md:w-5/12">
                     <Trending />
@@ -95,15 +112,26 @@ export default {
             }
         },
         activeTag() {
-            let content = this.post.data[0].tags[0].tags.length
+            let content = this.post.data[0].tags.length
                 ? this.post.data[0].tags[0].tags
                 : "";
 
             if (content) {
-                content += " > ";
+                content += " >";
             }
 
             return content;
+        },
+        customtag() {
+            const min = 0,
+                max = 2;
+            const random = Math.floor(Math.random() * (max - min + 1) + min);
+
+            console.log("Random", random);
+
+            if (random === 0) return "bg-red-800";
+            else if (random === 1) return "bg-yellow-300";
+            else return "bg-green-500";
         },
         excludePost() {
             const posts = this.posts.data.data.filter(
@@ -133,9 +161,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media (max-width: 640px) {
-    .banner-image {
-        height: 60vh;
-    }
+.banner-image {
+    height: 60vh;
 }
 </style>

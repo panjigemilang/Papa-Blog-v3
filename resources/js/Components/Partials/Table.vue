@@ -1,7 +1,9 @@
 <template>
     <div class="min-h-screen w-full">
         <div class="container">
-            <table class="table-auto md:table-fixed rounded-lg w-full bg-white text-gray-800">
+            <table
+                class="table-auto md:table-fixed rounded-lg w-full bg-white text-gray-800"
+            >
                 <thead>
                     <tr>
                         <th class="w-auto">
@@ -136,8 +138,11 @@ export default {
     methods: {
         ...mapActions("posts", ["deletePost"]),
         ...mapActions("general", ["toggleToast"]),
+        ...mapMutations("posts", ["setErrors"]),
         ...mapMutations("general", ["setMessages"]),
         onDelete(postId) {
+            this.setErrors({});
+
             const confirm = window.confirm(
                 "Are you sure you want to delete it?"
             );
