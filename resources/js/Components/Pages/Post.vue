@@ -133,9 +133,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media (max-width: 640px) {
-    .banner-image {
-        height: 60vh;
-    }
+.banner-image {
+    height: 60vh;
 }
 </style>

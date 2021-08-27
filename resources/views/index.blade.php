@@ -6,7 +6,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Papa Blog</title>
+        <title>Inidialo</title>
         <!-- Libraries -->
         <link
         rel="stylesheet"

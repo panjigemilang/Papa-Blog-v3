@@ -22,7 +22,7 @@
                                 title: content.title
                                     .toLowerCase()
                                     .replace(/\s|\+/g, '-')
-                                    .replace(/:|&\s|,|;|\./g, '')
+                                    .replace(/:|&\s|,|;|\.|\[|\]/g, '')
                             }
                         }"
                     >
@@ -58,7 +58,7 @@
                         title: content.title
                             .toLowerCase()
                             .replace(/\s|\+/g, '-')
-                            .replace(/:|&\s|,|;|\./g, '')
+                            .replace(/:|&\s|,|;|\.|\[|\]/g, '')
                     }
                 }"
             >

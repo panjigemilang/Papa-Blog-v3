@@ -47,7 +47,7 @@
                                         title: post.title
                                             .toLowerCase()
                                             .replace(/\s|\+/g, '-')
-                                            .replace(/:|&\s|,|;|\./g, '')
+                                            .replace(/:|&\s|,|;|\.|\[|\]/g, '')
                                     }
                                 }"
                             >

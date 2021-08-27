@@ -2,7 +2,7 @@
     <div class="card flex flex-row flex-wrap">
         <div
             class="w-12/12 md:w-4/12 px-4 my-4 md:my-0"
-            v-for="(post, i) in formattedPosts"
+            v-for="(post, i) in formattedPosts.slice(0, 3)"
             :key="i"
         >
             <div class="rounded-lg shadow-2xl overflow-hidden">
@@ -14,7 +14,7 @@
                             title: post.title
                                 .toLowerCase()
                                 .replace(/\s|\+/g, '-')
-                                .replace(/:|&\s|,|;|\./g, '')
+                                .replace(/:|&\s|,|;|\.|\[|\]/g, '')
                         }
                     }"
                 >
@@ -49,7 +49,7 @@
                                     title: post.title
                                         .toLowerCase()
                                         .replace(/\s|\+/g, '-')
-                                        .replace(/:|&\s|,|;|\./g, '')
+                                        .replace(/:|&\s|,|;|\.|\[|\]/g, '')
                                 }
                             }"
                         >
@@ -70,7 +70,7 @@
                                 title: post.title
                                     .toLowerCase()
                                     .replace(/\s|\+/g, '-')
-                                    .replace(/:|&\s|,|;|\./g, '')
+                                    .replace(/:|&\s|,|;|\.|\[|\]/g, '')
                             }
                         }"
                     >

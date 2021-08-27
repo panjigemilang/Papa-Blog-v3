@@ -9543,7 +9543,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "@media (max-width: 640px) {\n.banner-image[data-v-3381a736] {\n    height: 60vh;\n}\n}", ""]);
+exports.push([module.i, ".banner-image[data-v-3381a736] {\n  height: 60vh;\n}", ""]);
 
 // exports
 
@@ -48560,7 +48560,7 @@ var render = function() {
                                   title: content.title
                                     .toLowerCase()
                                     .replace(/\s|\+/g, "-")
-                                    .replace(/:|&\s|,|;|\./g, "")
+                                    .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                                 }
                               }
                             }
@@ -48629,7 +48629,7 @@ var render = function() {
                           title: content.title
                             .toLowerCase()
                             .replace(/\s|\+/g, "-")
-                            .replace(/:|&\s|,|;|\./g, "")
+                            .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                         }
                       }
                     }
@@ -48680,7 +48680,7 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "card flex flex-row flex-wrap" },
-    _vm._l(_vm.formattedPosts, function(post, i) {
+    _vm._l(_vm.formattedPosts.slice(0, 3), function(post, i) {
       return _c(
         "div",
         { key: i, staticClass: "w-12/12 md:w-4/12 px-4 my-4 md:my-0" },
@@ -48700,7 +48700,7 @@ var render = function() {
                         title: post.title
                           .toLowerCase()
                           .replace(/\s|\+/g, "-")
-                          .replace(/:|&\s|,|;|\./g, "")
+                          .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                       }
                     }
                   }
@@ -48759,7 +48759,7 @@ var render = function() {
                                 title: post.title
                                   .toLowerCase()
                                   .replace(/\s|\+/g, "-")
-                                  .replace(/:|&\s|,|;|\./g, "")
+                                  .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                               }
                             }
                           }
@@ -48793,7 +48793,7 @@ var render = function() {
                             title: post.title
                               .toLowerCase()
                               .replace(/\s|\+/g, "-")
-                              .replace(/:|&\s|,|;|\./g, "")
+                              .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                           }
                         }
                       }
@@ -48885,7 +48885,7 @@ var render = function() {
                                   title: post.title
                                     .toLowerCase()
                                     .replace(/\s|\+/g, "-")
-                                    .replace(/:|&\s|,|;|\./g, "")
+                                    .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                                 }
                               }
                             }
@@ -49085,7 +49085,7 @@ var render = function() {
                           title: post.title
                             .toLowerCase()
                             .replace(/\s|\+/g, "-")
-                            .replace(/:|&\s|,|;|\./g, "")
+                            .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                         }
                       }
                     }
@@ -49114,7 +49114,7 @@ var render = function() {
                                 title: post.title
                                   .toLowerCase()
                                   .replace(/\s|\+/g, "-")
-                                  .replace(/:|&\s|,|;|\./g, "")
+                                  .replace(/:|&\s|,|;|\.|\[|\]/g, "")
                               }
                             }
                           }
